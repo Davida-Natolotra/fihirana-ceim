@@ -2,3 +2,15 @@
   background-color: #016852 !important;
   color: white;
 }
+.example-spacer {
+  flex: 1 1 auto;
+}
+.example-icon {
+  color: white;
+}
+
+.navbar-brand {
+  cursor: pointer;
+  color: white !important;
+  font-size: 24px;
+}
