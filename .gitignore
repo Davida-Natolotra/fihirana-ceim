@@ -46,3 +46,8 @@ Thumbs.db
 *-debug.log
 .runtimeconfig.json
 /environments
+# Angular CLI
+.angular
+.angular.json
+.angular/cache
+app.config.ts
