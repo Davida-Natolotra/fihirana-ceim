@@ -1,0 +1,33 @@
+<mat-card class="lyric-card mat-elevation-z2 mat-typography">
+  <mat-card-header class="lyric-header">
+    <mat-card-title-group fxLayout="column" fxLayoutAlign="center center">
+      <span class="song-number mat-body-2 text-muted"
+        >Hira faha {{ lyric.songNumber }}</span
+      >
+      <h2 class="song-title mat-headline-6">{{ lyric.title }}</h2>
+    </mat-card-title-group>
+  </mat-card-header>
+
+  <mat-card-content>
+    @if (lyric.sections.length > 0) {
+    <section class="lyric-body">
+      @for (section of lyric.sections; track section.subtitle) {
+      <div class="lyric-section">
+        <mat-divider class="section-divider"></mat-divider>
+        <h3 class="section-subtitle mat-subheading-2">
+          {{ section.subtitle }}
+        </h3>
+
+        <div class="lyric-lines">
+          @for (line of section.lines; track $index) {
+          <p class="lyric-line mat-body-1">{{ line }}</p>
+          }
+        </div>
+      </div>
+      }
+    </section>
+    } @else {
+    <p class="no-lyrics mat-caption">No lyrics available.</p>
+    }
+  </mat-card-content>
+</mat-card>
