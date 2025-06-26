@@ -12,6 +12,7 @@
 .song-number {
   color: rgba(0, 0, 0, 0.54);
   margin-bottom: 0.25rem;
+  text-align: left;
 }
 
 .song-title {

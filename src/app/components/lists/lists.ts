@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   inject,
   OnInit,
@@ -34,6 +35,7 @@ export class Lists implements OnInit, AfterViewInit {
   lyricService = inject(LyricsService);
   lyricsFirebaseService = inject(Lyricsfb);
   @ViewChild(MatSort) sort!: MatSort;
+  constructor(private cdr: ChangeDetectorRef) {}
   ngOnInit(): void {
     this.lyricsFirebaseService
       .getLyrics()
@@ -54,6 +56,7 @@ export class Lists implements OnInit, AfterViewInit {
     this.sort.active = 'songNumber'; // or any other column you want to sort by
     this.sort.direction = 'asc'; // or 'desc'
     this.dataSource.sort = this.sort;
+    this.cdr.detectChanges();
   }
 
   applyFilter(event: Event) {

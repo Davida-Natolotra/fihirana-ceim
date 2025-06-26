@@ -23,4 +23,5 @@ export interface LyricInterface {
   language?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  key?: string; // Musical key of the song
 }

@@ -12,6 +12,8 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { provideServiceWorker } from '@angular/service-worker';
 import { enableIndexedDbPersistence } from 'firebase/firestore';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { getFrenchPaginatorIntl } from './paginator-intl-fr';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -35,5 +37,6 @@ export const appConfig: ApplicationConfig = {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    { provide: MatPaginatorIntl, useValue: getFrenchPaginatorIntl() },
   ],
 };
