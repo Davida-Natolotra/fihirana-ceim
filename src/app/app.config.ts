@@ -32,7 +32,19 @@ export const appConfig: ApplicationConfig = {
       })
     ),
     provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
+    provideFirestore(() => {
+      const firestore = getFirestore();
+      enableIndexedDbPersistence(firestore).catch((err) => {
+        if (err.code == 'failed-precondition') {
+          console.error(
+            'Persistence can only be enabled in one tab at a time.'
+          );
+        } else if (err.code == 'unimplemented') {
+          console.error('Current browser does not support persistence.');
+        }
+      });
+      return firestore;
+    }),
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
