@@ -14,14 +14,12 @@ import { provideServiceWorker } from '@angular/service-worker';
 import { enableIndexedDbPersistence } from 'firebase/firestore';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { getFrenchPaginatorIntl } from './paginator-intl-fr';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideAnimationsAsync(),
     provideFirebaseApp(() =>
       initializeApp({
         projectId: 'fihirana-ceim',
