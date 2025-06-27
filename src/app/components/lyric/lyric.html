@@ -9,8 +9,10 @@
         <strong>HIRA FAHA {{ lyric.songNumber }}</strong>
       </mat-card-subtitle>
 
-      <mat-card-title class="song-title">{{ lyric.title }}</mat-card-title>
-      <mat-card-subtitle>
+      <mat-card-title class="song-title mat-subheading-2"
+        >{{ lyric.title }}</mat-card-title
+      >
+      <mat-card-subtitle class="mat-caption">
         @if(lyric.key) {
         <i>Clé: {{ lyric.key }}</i>}
       </mat-card-subtitle>
