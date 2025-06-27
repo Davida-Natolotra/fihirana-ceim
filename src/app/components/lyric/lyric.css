@@ -5,19 +5,20 @@
 }
 
 .lyric-header {
-  text-align: center;
+  text-align: start;
   margin-bottom: 1rem;
 }
 
 .song-number {
-  color: rgba(0, 0, 0, 0.54);
-  margin-bottom: 0.25rem;
+  color: rgba(78, 78, 78, 0.54);
+  /* margin-bottom: 0.25rem; */
   text-align: left;
 }
 
 .song-title {
   margin: 0;
   font-weight: 500;
+  color: #016852 !important;
 }
 
 .section-subtitle {

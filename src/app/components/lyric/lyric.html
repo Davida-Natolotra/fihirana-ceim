@@ -1,11 +1,19 @@
 <mat-card class="lyric-card mat-elevation-z2 mat-typography">
   <mat-card-header class="lyric-header">
     <mat-card-title-group fxLayout="column" fxLayoutAlign="center center">
-      <span class="song-number mat-body-2">
-        <strong>Hira # {{ lyric.songNumber }}</strong> <br />
-        <i>Clé: {{ lyric.key }}</i></span
+      <mat-card-subtitle
+        class="song-number mat-body-1"
+        fxLayout="row"
+        fxLayoutAlign="start center"
       >
-      <h2 class="song-title mat-headline-6">{{ lyric.title }}</h2>
+        <strong>HIRA FAHA {{ lyric.songNumber }}</strong>
+      </mat-card-subtitle>
+
+      <mat-card-title class="song-title">{{ lyric.title }}</mat-card-title>
+      <mat-card-subtitle>
+        @if(lyric.key) {
+        <i>Clé: {{ lyric.key }}</i>}
+      </mat-card-subtitle>
     </mat-card-title-group>
   </mat-card-header>
 
