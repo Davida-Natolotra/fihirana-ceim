@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  firebaseConfig: {
+  firebase: {
     projectId: 'fihirana-ceim',
     appId: '1:173456515152:web:398265d51fa299f0b1b155',
     storageBucket: 'fihirana-ceim.firebasestorage.app',

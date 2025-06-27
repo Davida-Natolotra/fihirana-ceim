@@ -51,4 +51,4 @@ Thumbs.db
 .angular.json
 .angular/cache
 
-/src/app/app.config.ts
+src/environments/environment*.ts
