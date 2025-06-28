@@ -9,4 +9,5 @@ export const environment = {
     messagingSenderId: '173456515152',
     measurementId: 'G-JNY9FV3LM2',
   },
+  adminLink: '0197b669-b8b0-72bb-aa6f-2011f0278cc3',
 };

@@ -33,8 +33,16 @@ export class Lyricsfb {
   }
 
   addLyric(lyric: LyricInterface): Observable<string> {
-    const promise = addDoc(this.LyricsCollection, lyric);
-    return from(promise.then((docRef) => docRef.id));
+    const promise = addDoc(this.LyricsCollection, lyric)
+      .then((docRef) => {
+        this.notifications.showSuccess('Lyric added successfully');
+        return docRef.id;
+      })
+      .catch((error) => {
+        this.notifications.showError(`Error adding lyric: ${error.message}`);
+        throw error; // Re-throw the error to allow further handling if needed
+      });
+    return from(promise);
   }
 
   removeLyric(id: string): Observable<void> {
@@ -54,6 +62,17 @@ export class Lyricsfb {
   }
   updateLyric(id: string, lyric: LyricInterface): Observable<void> {
     const lyricDoc = doc(this.firestore, 'lyrics', id);
-    return from(setDoc(lyricDoc, lyric, { merge: true }));
+    return from(
+      setDoc(lyricDoc, lyric, { merge: true })
+        .then(() => {
+          this.notifications.showSuccess('Lyric updated successfully');
+        })
+        .catch((error) => {
+          this.notifications.showError(
+            `Error updating lyric: ${error.message}`
+          );
+          throw error; // Re-throw the error to allow further handling if needed
+        })
+    );
   }
 }

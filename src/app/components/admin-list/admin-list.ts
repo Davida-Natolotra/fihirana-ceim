@@ -24,6 +24,7 @@ import { LyricsService } from '../../services/lyrics.service';
 import { Lyricsfb } from '../../services/lyricsfb.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogDelete } from '../confirm-dialog-delete/confirm-dialog-delete';
+import { environment } from '../../../environments/environment.prod';
 @Component({
   selector: 'app-admin-list',
   imports: [
@@ -82,8 +83,8 @@ export class AdminList implements OnInit, AfterViewInit {
 
   editLyric(id?: string) {
     if (!id) return;
-    // Navigate to the edit page with the lyric ID
-    window.location.href = `/admin/lyric/${id}`;
+
+    this.router.navigate([environment.adminLink + '/lyric', id]);
   }
 
   deleteLyric(id?: string) {

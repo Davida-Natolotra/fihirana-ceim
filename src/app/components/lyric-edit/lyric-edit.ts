@@ -18,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { LyricsService } from '../../services/lyrics.service';
 import { Lyricsfb } from '../../services/lyricsfb.service';
+import { environment } from '../../../environments/environment.prod';
 
 @Component({
   selector: 'app-lyric-edit',
@@ -140,18 +141,18 @@ export class LyricEdit {
       this.lyricsFb.updateLyric(this.id, lyric).subscribe(() => {
         this.lyricsService.updateLyric({ ...lyric });
       });
-      this.snackBar.open('Tononkira updated successfully!', 'Close', {
-        duration: 3000,
-        panelClass: ['snack-success'],
-      });
-      this.router.navigate(['/admin']);
+
+      this.goBack();
     } else {
       this.lyricsFb
         .addLyric(lyric)
         .subscribe(() => this.lyricsService.addLyric(lyric));
-      this.snackBar.open('Tononkira created successfully!', 'Close', {
-        duration: 3000,
-      });
+
+      this.goBack();
     }
+  }
+
+  goBack() {
+    this.router.navigate([environment.adminLink]);
   }
 }

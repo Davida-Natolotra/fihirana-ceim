@@ -40,15 +40,6 @@ export const appConfig: ApplicationConfig = {
           }),
         }
       );
-      // enableIndexedDbPersistence(firestore).catch((err) => {
-      //   if (err.code == 'failed-precondition') {
-      //     console.error(
-      //       'Persistence can only be enabled in one tab at a time.'
-      //     );
-      //   } else if (err.code == 'unimplemented') {
-      //     console.error('Current browser does not support persistence.');
-      //   }
-      // });
       return firestore;
     }),
     provideServiceWorker('ngsw-worker.js', {
