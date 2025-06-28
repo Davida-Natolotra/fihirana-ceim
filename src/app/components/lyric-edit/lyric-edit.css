@@ -1,0 +1,55 @@
+.edit-lyric-card {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+.edit-lyric-title {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.edit-lyric-form .form-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.form-row > * {
+  flex: 1 1 45%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.section-container {
+  margin-top: 2rem;
+}
+
+.section-header {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.section-item {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.snack-success {
+  background-color: #4caf50;
+  color: #fff;
+}

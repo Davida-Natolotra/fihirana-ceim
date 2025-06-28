@@ -11,10 +11,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { LyricInterface } from '../../models/lyric.interface';
 import { LyricsService } from '../../services/lyrics.service';
 import { Lyricsfb } from '../../services/lyricsfb.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-lists',
@@ -24,6 +26,9 @@ import { Lyricsfb } from '../../services/lyricsfb.service';
     MatFormFieldModule,
     MatPaginatorModule,
     MatSortModule,
+    MatIconModule,
+    RouterModule,
+    MatButtonModule,
   ],
   templateUrl: './lists.html',
   styleUrl: './lists.css',

@@ -1,0 +1,21 @@
+::ng-deep .mat-column-songNumber {
+  max-width: 80px;
+  width: 80px;
+}
+
+::ng-deep .mat-column-actions {
+  max-width: 100px;
+  width: 100px;
+  text-align: right;
+}
+.toolRow {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.buttonRow {
+  height: 56px;
+  min-width: 120px;
+  white-space: nowrap;
+}

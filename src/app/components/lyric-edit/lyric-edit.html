@@ -1,0 +1,97 @@
+<mat-card class="edit-lyric-card">
+  <h2 class="edit-lyric-title">
+    {{ id !== 'new' ? 'Manova tononkira' : 'Hanampy tononkira' }}
+  </h2>
+
+  <form [formGroup]="form" (ngSubmit)="save()" class="edit-lyric-form">
+    <!-- Main Song Fields -->
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Laharan-kira</mat-label>
+        <input matInput formControlName="songNumber" type="text" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Clé</mat-label>
+        <input matInput formControlName="key" />
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Titre</mat-label>
+        <input matInput formControlName="title" required />
+      </mat-form-field>
+    </div>
+
+    <!-- Section Editor -->
+    <div class="section-container">
+      <h3 class="section-header">Sections</h3>
+
+      <ng-container formArrayName="sections">
+        <div
+          *ngFor="let section of sections.controls; let i = index"
+          [formGroupName]="i"
+          class="section-item"
+        >
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Type de section</mat-label>
+              <mat-select formControlName="type">
+                <mat-option *ngFor="let type of sectionTypes" [value]="type"
+                  >{{ type }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Sous Titre</mat-label>
+            <input matInput formControlName="subtitle" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Lyrics (one line per row)</mat-label>
+            <textarea matInput rows="4" formControlName="lines"></textarea>
+          </mat-form-field>
+
+          <div class="text-right">
+            <button
+              mat-stroked-button
+              color="warn"
+              (click)="removeSection(i)"
+              type="button"
+              [disabled]="sections.length === 1"
+            >
+              <mat-icon>delete</mat-icon> Enlever Section
+            </button>
+          </div>
+        </div>
+      </ng-container>
+
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        (click)="addSection()"
+      >
+        <mat-icon>add</mat-icon> Ajouter Section
+      </button>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <button mat-stroked-button type="button" routerLink="/admin">
+        Annuler
+      </button>
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        Enregistrer
+      </button>
+    </div>
+  </form>
+</mat-card>

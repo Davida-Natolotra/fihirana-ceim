@@ -1,5 +1,6 @@
 .bg-primary {
   background-color: #016852 !important;
+
   color: white;
 }
 .example-spacer {
@@ -17,4 +18,11 @@
 .app-logo {
   height: 40px;
   margin-right: 10px;
+}
+
+.app-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* ensures it stays above other content */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* optional shadow */
 }
