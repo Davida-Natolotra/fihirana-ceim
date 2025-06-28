@@ -4,11 +4,7 @@
     <input matInput (keyup)="applyFilter($event)" placeholder="Chercher..." />
   </mat-form-field>
 
-  <button
-    mat-flat-button
-    color="primary"
-    [routerLink]="['/admin/lyric', 'new']"
-  >
+  <button mat-flat-button color="primary" (click)="newLyric()">
     <mat-icon>add</mat-icon>
     Ajouter
   </button>

@@ -101,4 +101,7 @@ export class AdminList implements OnInit, AfterViewInit {
       }
     });
   }
+  newLyric() {
+    this.router.navigate([environment.adminLink + '/lyric', 'new']);
+  }
 }
