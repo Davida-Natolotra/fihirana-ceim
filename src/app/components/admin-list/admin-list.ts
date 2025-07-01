@@ -25,7 +25,6 @@ import { Lyricsfb } from '../../services/lyricsfb.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogDelete } from '../confirm-dialog-delete/confirm-dialog-delete';
 import { environment } from '../../../environments/environment.prod';
-import { LyricTransformInterface } from '../../models/lyric-transf.interface';
 @Component({
   selector: 'app-admin-list',
   imports: [
@@ -49,7 +48,7 @@ export class AdminList implements OnInit, AfterViewInit {
   lyricsFirebaseService = inject(Lyricsfb);
   displayedColumns: string[] = ['songNumber', 'title', 'actions'];
   router = inject(Router);
-  dataSource = new MatTableDataSource<LyricTransformInterface>();
+  dataSource = new MatTableDataSource<LyricInterface>();
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator)
@@ -60,41 +59,10 @@ export class AdminList implements OnInit, AfterViewInit {
     this.lyricsFirebaseService
       .getLyrics()
       .subscribe((lyrics: LyricInterface[]) => {
-        // Transform the lyrics to ensure songNumber is a number
-        const songs = lyrics.map((lyric) => {
-          const match = lyric.songNumber.match(/^(\d+)\s*([a-zA-Z])?$/);
-          if (match) {
-            const [, numStr, suffix] = match;
-            const result: LyricTransformInterface = {
-              songNumber: parseInt(numStr, 10),
-              title: lyric.title,
-              searchTitle: lyric.searchTitle,
-              allLyricsText: lyric.allLyricsText,
-              sections: [],
-            };
-            if (suffix) {
-              result.suffix = suffix;
-            }
-            return result;
-          }
-
-          // fallback in case songNumber doesn't match expected format
-          return {
-            songNumber: parseInt(lyric.songNumber, 10),
-            title: lyric.title,
-            searchTitle: lyric.searchTitle,
-            allLyricsText: lyric.allLyricsText,
-            sections: [],
-            id: lyric.id,
-            createdAt: lyric.createdAt,
-            updatedAt: lyric.updatedAt,
-            key: lyric.key,
-          };
-        });
-
-        this.lyricService.lyricsSig.set(songs);
+        // Update the lyrics signal with the fetched data
+        this.lyricService.lyricsSig.set(lyrics);
         // Update the data source for the table
-        this.dataSource.data = songs;
+        this.dataSource.data = lyrics;
       });
     // Initialize the data source with the lyrics signal
     this.dataSource.data = this.lyricService.lyricsSig();

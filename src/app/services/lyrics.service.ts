@@ -1,12 +1,11 @@
 import { Injectable, signal } from '@angular/core';
 import { LyricInterface } from '../models/lyric.interface';
-import { LyricTransformInterface } from '../models/lyric-transf.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LyricsService {
-  lyricsSig = signal<LyricTransformInterface[]>([]);
+  lyricsSig = signal<LyricInterface[]>([]);
 
   addLyric(lyric: LyricInterface) {
     const currentLyrics = this.lyricsSig();

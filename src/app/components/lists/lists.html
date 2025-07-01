@@ -15,7 +15,9 @@
     <!-- Position Column -->
     <ng-container matColumnDef="songNumber">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Laharan-kira</th>
-      <td mat-cell *matCellDef="let element">{{element.songNumber}}</td>
+      <td mat-cell *matCellDef="let element">
+        {{element.songNumber}}{{ element.suffix ? ' ' + element.suffix : '' }}
+      </td>
     </ng-container>
 
     <!-- Name Column -->

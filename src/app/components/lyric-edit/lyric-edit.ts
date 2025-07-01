@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { LyricInterface, LyricSection } from '../../models/lyric.interface';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -43,12 +43,12 @@ export class LyricEdit {
   lyricsSig = inject(LyricsService).lyricsSig;
   lyricsService = inject(LyricsService);
   lyricsFb = inject(Lyricsfb);
-  private snackBar = inject(MatSnackBar);
   private router = inject(Router);
 
   id = this.route.snapshot.paramMap.get('id');
   form: FormGroup = this.fb.group({
     songNumber: [null, Validators.required],
+    suffix: [''], // Optional suffix for the song number
     title: ['', Validators.required],
     searchTitle: [''],
     allLyricsText: [''],
@@ -79,6 +79,7 @@ export class LyricEdit {
       if (lyric) {
         this.form.patchValue({
           songNumber: lyric.songNumber,
+          suffix: lyric.suffix || '', // Optional suffix
           title: lyric.title,
           searchTitle: lyric.searchTitle,
           allLyricsText: lyric.allLyricsText,
@@ -91,6 +92,7 @@ export class LyricEdit {
     } else {
       this.form.patchValue({
         songNumber: 1, // Default song number
+        suffix: '', // Default suffix
         title: '',
         searchTitle: '',
         allLyricsText: '',

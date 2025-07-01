@@ -13,7 +13,10 @@
 <mat-table [dataSource]="dataSource" matSort>
   <ng-container matColumnDef="songNumber">
     <mat-header-cell *matHeaderCellDef mat-sort-header>#</mat-header-cell>
-    <mat-cell *matCellDef="let lyric">{{ lyric.songNumber }}</mat-cell>
+    <mat-cell *matCellDef="let lyric"
+      >{{ lyric.songNumber }}{{ lyric.suffix ? ' ' + lyric.suffix : ''
+      }}</mat-cell
+    >
   </ng-container>
 
   <ng-container matColumnDef="title">
