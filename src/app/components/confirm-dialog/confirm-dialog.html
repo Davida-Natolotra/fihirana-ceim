@@ -3,11 +3,11 @@
   <p>{{ data.message }}</p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button [mat-dialog-close]="false">
+  <button mat-raised-button [mat-dialog-close]="false">
     {{ data.cancelButtonText || 'Annuler' }}
   </button>
   <button
-    mat-raised-button
+    mat-flat-button
     color="primary"
     [mat-dialog-close]="true"
     cdkFocusInitial
