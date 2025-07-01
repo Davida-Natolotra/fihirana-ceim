@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Appbar } from './components/appbar/appbar';
-import { ConfirmDialog } from './components/confirm-dialog/confirm-dialog';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { MatDialog } from '@angular/material/dialog';
 import { filter } from 'rxjs';
@@ -40,7 +39,7 @@ export class App {
       });
 
       dialogRef.afterClosed().subscribe((result) => {
-        if (result === 'installer') {
+        if (result === 'install') {
           this.promptInstall();
         }
       });
