@@ -5,6 +5,8 @@ import { ConfirmDialog } from './components/confirm-dialog/confirm-dialog';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { MatDialog } from '@angular/material/dialog';
 import { filter } from 'rxjs';
+import { InstallPromptDialog } from './components/install-prompt-dialog/install-prompt-dialog';
+import { UpdateAvailableDialog } from './components/update-available-dialog/update-available-dialog';
 
 @Component({
   selector: 'app-root',
@@ -26,14 +28,14 @@ export class App {
       e.preventDefault();
       this.deferredPrompt = e;
 
-      const dialogRef = this.dialog.open(ConfirmDialog, {
+      const dialogRef = this.dialog.open(InstallPromptDialog, {
         width: '400px',
         data: {
           title: "Installer l'application",
           message:
             'Voulez-vous installer l’application Fihirana CEIM sur votre appareil ?',
           confirmButtonText: 'Installer',
-          cancelButtonText: 'Cancel',
+          cancelButtonText: 'Annuler',
         },
       });
 
@@ -59,7 +61,7 @@ export class App {
           )
         )
         .subscribe(() => {
-          const dialogRef = this.dialog.open(ConfirmDialog);
+          const dialogRef = this.dialog.open(UpdateAvailableDialog);
           dialogRef.afterClosed().subscribe((result) => {
             if (result === 'update') {
               this.swUpdate.activateUpdate().then(() => location.reload());

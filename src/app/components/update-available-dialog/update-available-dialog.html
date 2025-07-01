@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>🔄 Nouvelle mise à jour disponible</h2>
+<mat-dialog-content>
+  <p>Nous avons trouv&eacute; une nouvelle mise &agrave; jour.</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button (click)="close()">Plus tard</button>
+  <button mat-flat-button color="primary" (click)="reload()">
+    Mettre &agrave; jour
+  </button>
+</mat-dialog-actions>
