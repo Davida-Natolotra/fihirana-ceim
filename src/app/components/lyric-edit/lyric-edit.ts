@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -19,6 +19,8 @@ import { MatCardModule } from '@angular/material/card';
 import { LyricsService } from '../../services/lyrics.service';
 import { Lyricsfb } from '../../services/lyricsfb.service';
 import { environment } from '../../../environments/environment.prod';
+import { ExtralyricsService } from '../../services/extralyrics.service';
+import { ExtrafbService } from '../../services/extrafb.service';
 
 @Component({
   selector: 'app-lyric-edit',
@@ -40,14 +42,25 @@ import { environment } from '../../../environments/environment.prod';
 export class LyricEdit {
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
+  // Fihirana CEIM
   lyricsSig = inject(LyricsService).lyricsSig;
   lyricsService = inject(LyricsService);
   lyricsFb = inject(Lyricsfb);
+
+  // Fihirana extra
+  extraLyricsSig = inject(ExtralyricsService).extraLyricSig;
+  extraLyricsService = inject(ExtralyricsService);
+  extraLyricsFb = inject(ExtrafbService);
+
   private router = inject(Router);
 
   id = this.route.snapshot.paramMap.get('id');
+  extra = this.route.snapshot.url.some((segment) =>
+    segment.path.includes('extralyric')
+  );
+
   form: FormGroup = this.fb.group({
-    songNumber: [null, Validators.required],
+    songNumber: [null],
     suffix: [''], // Optional suffix for the song number
     title: ['', Validators.required],
     searchTitle: [''],
@@ -74,11 +87,17 @@ export class LyricEdit {
 
   constructor() {
     if (this.id && this.id !== 'new') {
-      const currentLyrics = this.lyricsSig();
-      const lyric = currentLyrics.find((l) => l.id === this.id);
+      let currentLyrics: Signal<LyricInterface[]>;
+      if (!this.extra) {
+        currentLyrics = this.lyricsSig;
+      } else {
+        currentLyrics = this.extraLyricsSig;
+      }
+
+      const lyric = currentLyrics().find((l) => l.id === this.id);
       if (lyric) {
         this.form.patchValue({
-          songNumber: lyric.songNumber,
+          songNumber: lyric.songNumber || 0,
           suffix: lyric.suffix || '', // Optional suffix
           title: lyric.title,
           searchTitle: lyric.searchTitle,
@@ -91,7 +110,7 @@ export class LyricEdit {
       }
     } else {
       this.form.patchValue({
-        songNumber: 1, // Default song number
+        songNumber: 0, // Default song number
         suffix: '', // Default suffix
         title: '',
         searchTitle: '',
@@ -107,6 +126,7 @@ export class LyricEdit {
         })),
       });
     }
+    console.log('extra:', this.extra);
   }
 
   addSection(section?: LyricSection) {
@@ -140,15 +160,27 @@ export class LyricEdit {
     };
 
     if (this.id && this.id !== 'new') {
-      this.lyricsFb.updateLyric(this.id, lyric).subscribe(() => {
-        this.lyricsService.updateLyric({ ...lyric });
-      });
+      if (!this.extra) {
+        this.lyricsFb.updateLyric(this.id, lyric).subscribe(() => {
+          this.lyricsService.updateLyric({ ...lyric });
+        });
+      } else {
+        this.extraLyricsFb.updateLyric(this.id, lyric).subscribe(() => {
+          this.extraLyricsService.updateExtraLyric({ ...lyric });
+        });
+      }
 
       this.goBack();
     } else {
-      this.lyricsFb
-        .addLyric(lyric)
-        .subscribe(() => this.lyricsService.addLyric(lyric));
+      if (!this.extra) {
+        this.lyricsFb
+          .addLyric(lyric)
+          .subscribe(() => this.lyricsService.addLyric(lyric));
+      } else {
+        this.extraLyricsFb
+          .addExtraLyric(lyric)
+          .subscribe(() => this.extraLyricsService.addExtraLyric(lyric));
+      }
 
       this.goBack();
     }

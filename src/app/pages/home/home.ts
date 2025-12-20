@@ -1,10 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Lists } from '../../components/lists/lists';
+import { Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { LouangeService } from '../../services/louange.service';
 
 @Component({
   selector: 'app-home',
-  imports: [Lists],
+  imports: [Lists, MatButtonModule],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home {}
+export class Home {
+  constructor(private router: Router, private louangeService: LouangeService) {
+    this.louangeService.setLouangeSig(false);
+  }
+  gotoLouange() {
+    this.router.navigate(['louange']);
+  }
+}

@@ -22,4 +22,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 })
 export class Lyric {
   @Input({ required: true }) lyric!: LyricInterface;
+  @Input({ required: true }) extra!: boolean;
+  @Input({ required: true }) louange!: boolean;
 }

@@ -14,7 +14,7 @@ export interface LyricSection {
 
 export interface LyricInterface {
   id?: string; // Firestore document ID
-  songNumber: number;
+  songNumber?: number;
   suffix?: string; // Optional suffix for the song number
   title: string;
   searchTitle?: string; // Lowercase, stripped version for search

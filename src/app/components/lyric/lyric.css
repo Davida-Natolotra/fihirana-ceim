@@ -24,7 +24,14 @@
 .section-subtitle {
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
-  color: rgba(0, 0, 0, 0.87);
+  color: rgba(113, 113, 113, 0.87);
+}
+
+.section-subtitle-chorus {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: rgba(113, 113, 113, 0.87);
+  font-style: italic;
 }
 
 .section-divider {
@@ -32,9 +39,15 @@
   border-color: rgba(0, 0, 0, 0.54);
 }
 
-.lyric-line {
+.lyric-lines {
   margin: 0.25rem 0;
   line-height: 1.6;
+}
+
+.lyric-lines-chorus {
+  margin: 0.25rem 0;
+  line-height: 1.6;
+  font-style: italic;
 }
 
 .no-lyrics {
