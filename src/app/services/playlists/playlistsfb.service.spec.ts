@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Notification } from './notification';
+import { PlaylistsfbService } from './playlistsfb.service';
 
-describe('Notification', () => {
-  let service: Notification;
+describe('PlaylistsfbService', () => {
+  let service: PlaylistsfbService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(Notification);
+    service = TestBed.inject(PlaylistsfbService);
   });
 
   it('should be created', () => {

@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { LyricInterface } from '../models/lyric.interface';
+import { LyricInterface } from '../../models/lyric.interface';
 
 @Injectable({
   providedIn: 'root',

@@ -1,8 +1,8 @@
 import { Injectable, signal } from '@angular/core';
-import { ExtraLyricInterface } from '../models/extra-lyric.interface';
+import { ExtraLyricInterface } from '../../models/extra-lyric.interface';
 import { doc, docData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { LyricInterface } from '../models/lyric.interface';
+import { LyricInterface } from '../../models/lyric.interface';
 
 @Injectable({
   providedIn: 'root',

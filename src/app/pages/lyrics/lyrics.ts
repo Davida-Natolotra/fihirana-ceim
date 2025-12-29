@@ -3,12 +3,12 @@ import { Lyric } from '../../components/lyric/lyric';
 import { LyricInterface } from '../../models/lyric.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatButton } from '@angular/material/button';
-import { LyricsService } from '../../services/lyrics.service';
-import { Lyricsfb } from '../../services/lyricsfb.service';
-import { ExtrafbService } from '../../services/extrafb.service';
-import { ExtralyricsService } from '../../services/extralyrics.service';
+import { LyricsService } from '../../services/lyrics/lyrics.service';
+import { Lyricsfb } from '../../services/lyrics/lyricsfb.service';
+import { ExtrafbService } from '../../services/extra/extrafb.service';
+import { ExtralyricsService } from '../../services/extra/extralyrics.service';
 import { ExtraLyricInterface } from '../../models/extra-lyric.interface';
-import { LouangeService } from '../../services/louange.service';
+import { LouangeService } from '../../services/louange/louange.service';
 
 @Component({
   selector: 'app-lyrics',

@@ -1,7 +1,15 @@
 <div class="container">
-  <h2>Lisitry ny hira</h2>
-  <app-lists></app-lists>
-  <hr />
-  <h2>Lisitra fanampiny</h2>
-  <app-extra-lists></app-extra-lists>
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+    <mat-tab label="Fihirana">
+      <h2>Lisitry ny hira</h2>
+      <app-lists></app-lists>
+      <hr />
+      <h2>Lisitra fanampiny</h2>
+      <app-extra-lists></app-extra-lists>
+    </mat-tab>
+    <mat-tab label="Playlist">
+      <h2>Playlist</h2>
+      <app-playlist-list></app-playlist-list
+    ></mat-tab>
+  </mat-tab-group>
 </div>

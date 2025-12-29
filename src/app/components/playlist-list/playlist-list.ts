@@ -7,11 +7,12 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { ExtraLyricInterface } from '../../models/extra-lyric.interface';
-import { ExtralyricsService } from '../../services/extra/extralyrics.service';
-import { ExtrafbService } from '../../services/extra/extrafb.service';
+import { PlaylistInterface } from '../../models/playlist.interface';
+import { PlaylistsfbService } from '../../services/playlists/playlistsfb.service';
+import { PlaylistsService } from '../../services/playlists/playlists.service';
+
 @Component({
-  selector: 'app-extra-lists',
+  selector: 'app-playlist-list',
   imports: [
     MatTableModule,
     MatInputModule,
@@ -22,36 +23,38 @@ import { ExtrafbService } from '../../services/extra/extrafb.service';
     RouterModule,
     MatButtonModule,
   ],
-  templateUrl: './extra-lists.html',
-  styleUrl: './extra-lists.css',
+  templateUrl: './playlist-list.html',
+  styleUrl: './playlist-list.css',
 })
-export class ExtraLists {
+export class PlaylistList {
   router = inject(Router);
-  displayedColumns: string[] = ['title'];
-  dataSource = new MatTableDataSource([] as ExtraLyricInterface[]);
-  extraLyricService = inject(ExtralyricsService);
-  extraLyricsFirebaseService = inject(ExtrafbService);
+  displayedColumns: string[] = ['name'];
+  dataSource = new MatTableDataSource([] as PlaylistInterface[]);
+  playlistService = inject(PlaylistsService);
+  playlistsFirebaseService = inject(PlaylistsfbService);
+
   @ViewChild(MatSort) sort!: MatSort;
   constructor(private cdr: ChangeDetectorRef) {}
   ngOnInit(): void {
-    this.extraLyricsFirebaseService
-      .getExtraLyrics()
-      .subscribe((lyrics: ExtraLyricInterface[]) => {
+    this.playlistsFirebaseService
+      .getPlaylists()
+      .subscribe((playlists: PlaylistInterface[] | any) => {
         // Update the lyrics signal with the fetched data
 
-        this.extraLyricService.loadExtraLyric(lyrics);
+        this.playlistService.setPlaylists(playlists as PlaylistInterface[]);
+        console.log('Playlist: ', playlists);
         // Update the data source for the table
-        this.dataSource.data = lyrics;
+        this.dataSource.data = playlists;
       });
     // Initialize the data source with the lyrics signal
-    this.dataSource.data = this.extraLyricService.extraLyricSig();
+    this.dataSource.data = this.playlistService.playlistsSig();
   }
 
   @ViewChild(MatPaginator)
   paginator: MatPaginator = new MatPaginator();
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-    this.sort.active = 'title'; // or any other column you want to sort by
+    this.sort.active = 'name'; // or any other column you want to sort by
     this.sort.direction = 'asc'; // or 'desc'
     this.dataSource.sort = this.sort;
     this.cdr.detectChanges();
@@ -62,7 +65,7 @@ export class ExtraLists {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  openDetail(row: ExtraLyricInterface) {
+  openLyric(row: PlaylistInterface) {
     this.router.navigate(['/extralyric', row.id]);
   }
 }

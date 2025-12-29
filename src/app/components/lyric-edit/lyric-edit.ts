@@ -16,11 +16,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { LyricsService } from '../../services/lyrics.service';
-import { Lyricsfb } from '../../services/lyricsfb.service';
+import { LyricsService } from '../../services/lyrics/lyrics.service';
+import { Lyricsfb } from '../../services/lyrics/lyricsfb.service';
 import { environment } from '../../../environments/environment.prod';
-import { ExtralyricsService } from '../../services/extralyrics.service';
-import { ExtrafbService } from '../../services/extrafb.service';
+import { ExtralyricsService } from '../../services/extra/extralyrics.service';
+import { ExtrafbService } from '../../services/extra/extrafb.service';
 
 @Component({
   selector: 'app-lyric-edit',

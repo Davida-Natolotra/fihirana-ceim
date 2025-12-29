@@ -12,8 +12,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider'; // For mat-divider in menu
 
 // Services
-import { AuthService } from '../../services/auth.service';
-import { Notification } from '../../services/notification.service';
+import { AuthService } from '../../services/auth/auth.service';
+import { Notification } from '../../services/notification/notification.service';
 
 // RxJS
 import { Observable } from 'rxjs';

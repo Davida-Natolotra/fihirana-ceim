@@ -1,0 +1,4 @@
+.mat-mdc-row:hover .mat-mdc-cell {
+  background-color: #d4efe9;
+  cursor: pointer;
+}

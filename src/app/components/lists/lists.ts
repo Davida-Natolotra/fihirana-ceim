@@ -13,8 +13,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Router, RouterModule } from '@angular/router';
 import { LyricInterface } from '../../models/lyric.interface';
-import { LyricsService } from '../../services/lyrics.service';
-import { Lyricsfb } from '../../services/lyricsfb.service';
+import { LyricsService } from '../../services/lyrics/lyrics.service';
+import { Lyricsfb } from '../../services/lyrics/lyricsfb.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 

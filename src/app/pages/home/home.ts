@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Lists } from '../../components/lists/lists';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { LouangeService } from '../../services/louange.service';
+import { LouangeService } from '../../services/louange/louange.service';
 
 @Component({
   selector: 'app-home',

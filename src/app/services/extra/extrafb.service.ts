@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   collection,
   doc,
@@ -9,30 +9,32 @@ import {
   addDoc,
   setDoc,
 } from '@angular/fire/firestore';
-import { LyricInterface } from '../models/lyric.interface';
-import { from, Observable, Observer } from 'rxjs';
-import { Notification } from './notification.service';
+import { ExtraLyricInterface } from '../../models/extra-lyric.interface';
+import { from, Observable } from 'rxjs';
+import { Notification } from '../notification/notification.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class Lyricsfb {
+export class ExtrafbService {
   private notifications = inject(Notification);
   firestore = inject(Firestore);
-  LyricsCollection = collection(this.firestore, 'lyrics');
+  LyricsCollection = collection(this.firestore, 'extra_lyrics');
 
-  getLyrics(): Observable<LyricInterface[]> {
+  getExtraLyrics(): Observable<ExtraLyricInterface[]> {
     return collectionData(this.LyricsCollection, {
       idField: 'id',
-    }) as Observable<LyricInterface[]>;
+    }) as Observable<ExtraLyricInterface[]>;
   }
 
-  getLyric(id: string): Observable<LyricInterface> {
-    const lyricDoc = doc(this.firestore, 'lyrics', id);
-    return docData(lyricDoc, { idField: 'id' }) as Observable<LyricInterface>;
+  getExtraLyric(id: string): Observable<ExtraLyricInterface> {
+    const lyricDoc = doc(this.firestore, 'extra_lyrics', id);
+    return docData(lyricDoc, {
+      idField: 'id',
+    }) as Observable<ExtraLyricInterface>;
   }
 
-  addLyric(lyric: LyricInterface): Observable<string> {
+  addExtraLyric(lyric: ExtraLyricInterface): Observable<string> {
     const promise = addDoc(this.LyricsCollection, lyric)
       .then((docRef) => {
         this.notifications.showSuccess('Lyric added successfully');
@@ -45,12 +47,12 @@ export class Lyricsfb {
     return from(promise);
   }
 
-  removeLyric(id: string): Observable<void> {
-    const lyricDoc = doc(this.firestore, 'lyrics', id);
+  removeExtraLyric(id: string): Observable<void> {
+    const lyricDoc = doc(this.firestore, 'extra_lyrics', id);
     return from(
       deleteDoc(lyricDoc)
         .then(() => {
-          this.notifications.showSuccess('Lyric deleted successfully');
+          this.notifications.showSuccess('Extra lyric deleted successfully');
         })
         .catch((error) => {
           this.notifications.showError(
@@ -60,8 +62,8 @@ export class Lyricsfb {
         })
     );
   }
-  updateLyric(id: string, lyric: LyricInterface): Observable<void> {
-    const lyricDoc = doc(this.firestore, 'lyrics', id);
+  updateLyric(id: string, lyric: ExtraLyricInterface): Observable<void> {
+    const lyricDoc = doc(this.firestore, 'extra_lyrics', id);
     return from(
       setDoc(lyricDoc, lyric, { merge: true })
         .then(() => {

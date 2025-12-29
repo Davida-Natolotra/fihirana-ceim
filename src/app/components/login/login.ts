@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { Router, RouterLink } from '@angular/router';
 
 // Angular Material Imports (keep these as the component uses them directly)
@@ -13,7 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon'; // Make sure this is imported if using mat-icon suffixes
 
 // Import the new NotificationService
-import { Notification } from '../../services/notification.service';
+import { Notification } from '../../services/notification/notification.service';
 
 @Component({
   selector: 'app-login',
