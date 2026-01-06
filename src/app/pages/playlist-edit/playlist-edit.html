@@ -1,0 +1,51 @@
+<h2>Editeur de playlist</h2>
+<mat-stepper linear #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <div [formGroup]="firstFormGroup" class="container">
+      @if(isEditable){
+      <div class="edit-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Nom de la playlist</mat-label>
+          <input
+            matInput
+            formControlName="playlistName"
+            placeholder="Nom de la playlist"
+            required
+          />
+        </mat-form-field>
+
+        <button
+          mat-icon-button
+          aria-label="Valider le nom de la playlist"
+          (click)="savePlaylistName()"
+        >
+          <mat-icon>check</mat-icon></button
+        ><button
+          mat-icon-button
+          aria-label="Valider le nom de la playlist"
+          (click)="disableEdit()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      } @else {
+      <h4 class="playlist-header">
+        {{playlistNameValue}}
+        <button matIconButton (click)="enableEdit()">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </h4>
+      }
+    </div>
+    <div>
+      <button mat-raised-button matStepperNext>Suivant</button>
+    </div>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <app-playlist-edit-songlist></app-playlist-edit-songlist>
+    <div>
+      <button mat-raised-button matStepperPrevious>Précédent</button>
+    </div>
+  </mat-step>
+</mat-stepper>
+<button type="button" mat-flat-button (click)="backToLouange()">Revenir</button>

@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 import { CommonModule } from '@angular/common';
-import { RouterLink, Router } from '@angular/router'; // For routerLink and navigation
+import { RouterLink, Router, ActivatedRoute } from '@angular/router'; // For routerLink and navigation
 
 // Angular Material Imports
 
@@ -19,6 +19,7 @@ import { Notification } from '../../services/notification/notification.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '@angular/fire/auth';
+import { PlaylistsService } from '../../services/playlists/playlists.service';
 @Component({
   selector: 'app-appbar',
   imports: [
@@ -35,6 +36,11 @@ import { User } from '@angular/fire/auth';
 })
 export class Appbar {
   router = inject(Router);
+
+  Playlist = inject(PlaylistsService);
+
+  url_playlist: boolean = false;
+
   user$: Observable<User | null> | undefined;
   userInitial$: Observable<string> | undefined;
   goBack() {
@@ -43,7 +49,8 @@ export class Appbar {
 
   constructor(
     private authService: AuthService,
-    private notificationService: Notification
+    private notificationService: Notification,
+    private route: ActivatedRoute
   ) {
     // These observables are derived from AuthService and will be used in the template
     this.user$ = this.authService.getCurrentUser();
@@ -56,6 +63,16 @@ export class Appbar {
         return '';
       })
     );
+
+    this.url_playlist = this.route.snapshot.url.some((segment) =>
+      segment.path.includes('playlist')
+    );
+
+    if (this.url_playlist) {
+      this.Playlist.setIsPlaylist(true);
+    } else {
+      this.Playlist.setIsPlaylist(false);
+    }
   }
 
   ngOnInit(): void {

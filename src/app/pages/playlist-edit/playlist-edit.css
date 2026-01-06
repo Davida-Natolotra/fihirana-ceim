@@ -1,0 +1,18 @@
+.playlist-header {
+  display: flex;
+  align-items: center; /* This does the vertical centering */
+  gap: 10px; /* Adds space between text and button */
+  margin: 0; /* Optional: removes default heading margins */
+}
+
+.edit-container {
+  display: flex;
+  align-items: center; /* Vertically centers the items */
+  gap: 8px; /* Adds space between the input and the checkmark */
+}
+
+/* Optional: Material form fields have a default bottom margin for subscripts (hints/errors) */
+/* This line ensures the button aligns with the input box, not the entire container */
+.edit-container ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}

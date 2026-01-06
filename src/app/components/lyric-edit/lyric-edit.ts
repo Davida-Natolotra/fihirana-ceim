@@ -1,4 +1,10 @@
-import { Component, inject, Signal } from '@angular/core';
+import {
+  Component,
+  inject,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -21,6 +27,13 @@ import { Lyricsfb } from '../../services/lyrics/lyricsfb.service';
 import { environment } from '../../../environments/environment.prod';
 import { ExtralyricsService } from '../../services/extra/extralyrics.service';
 import { ExtrafbService } from '../../services/extra/extrafb.service';
+import { BehaviorSubject, filter, pairwise } from 'rxjs';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+  DragDropModule,
+} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-lyric-edit',
@@ -35,6 +48,7 @@ import { ExtrafbService } from '../../services/extra/extrafb.service';
     MatIconModule,
     MatCardModule,
     MatSnackBarModule,
+    DragDropModule,
   ],
   templateUrl: './lyric-edit.html',
   styleUrl: './lyric-edit.css',
@@ -85,6 +99,14 @@ export class LyricEdit {
     'tag',
   ];
 
+  // Signal to track section order and state
+  sectionsSignal: WritableSignal<any[]> = signal([]);
+
+  sectionStream$ = new BehaviorSubject(this.sections);
+  private hasDifference(a: any[], b: any[]): boolean {
+    return JSON.stringify(a) !== JSON.stringify(b);
+  }
+
   constructor() {
     if (this.id && this.id !== 'new') {
       let currentLyrics: Signal<LyricInterface[]>;
@@ -107,6 +129,8 @@ export class LyricEdit {
         // Add sections to the form array
         this.sections.clear();
         lyric.sections.forEach((s) => this.addSection(s));
+        // Initialize the signal with the sections
+        this.sectionsSignal.set([...lyric.sections]);
       }
     } else {
       this.form.patchValue({
@@ -124,9 +148,22 @@ export class LyricEdit {
           subtitle: '',
           lines: '',
         })),
-      });
+      }); // Initialize signal with default sections
+      this.sectionsSignal.set(
+        this.sectionTypes.map((type) => ({
+          type,
+          order: null,
+          subtitle: '',
+          lines: '',
+        }))
+      );
     }
     console.log('extra:', this.extra);
+
+    this.sectionStream$.subscribe((newList) => {
+      console.log('Done list actually changed! ', newList);
+      this.sections.setValue(newList.getRawValue());
+    });
   }
 
   addSection(section?: LyricSection) {
@@ -144,18 +181,50 @@ export class LyricEdit {
     this.sections.removeAt(index);
   }
 
+  drop(event: CdkDragDrop<any>) {
+    if (event.previousContainer === event.container) {
+      // Reorder controls in the FormArray
+      moveItemInArray(
+        this.sections.controls,
+        event.previousIndex,
+        event.currentIndex
+      );
+
+      // Update the signal with the new order from FormArray
+      const reorderedSections = this.sections.controls.map(
+        (ctrl) => ctrl.value
+      );
+      this.sectionsSignal.set(reorderedSections);
+    } else {
+      transferArrayItem(
+        (event.previousContainer as any).data,
+        this.sections.controls,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
+  }
+
   save() {
     const formValue = this.form.value;
+    // Use the signal's section state instead of form array
+    const sectionsData = this.sectionsSignal().map((s: any) => ({
+      type: s.type,
+      order: s.order,
+      subtitle: s.subtitle,
+      lines: Array.isArray(s.lines) ? s.lines : s.lines.split('\n'),
+    }));
+
     const lyric: LyricInterface = {
       ...formValue,
       searchTitle: formValue.title.toLowerCase(),
-      allLyricsText: formValue.sections.map((s: any) => s.lines).join('\n'),
-      sections: formValue.sections.map((s: any) => ({
-        type: s.type,
-        order: s.order,
-        subtitle: s.subtitle,
-        lines: s.lines.split('\n'),
-      })),
+      allLyricsText: sectionsData
+        .map((s: any) => {
+          const lines = Array.isArray(s.lines) ? s.lines : s.lines.split('\n');
+          return lines.join('\n');
+        })
+        .join('\n'),
+      sections: sectionsData,
       updatedAt: new Date(),
     };
 

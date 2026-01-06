@@ -65,7 +65,11 @@ export class PlaylistList {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  openLyric(row: PlaylistInterface) {
-    this.router.navigate(['/extralyric', row.id]);
+  openPlaylist(row: PlaylistInterface) {
+    this.playlistService.setIsPlaylist(true);
+    this.playlistService.setIsEditingPlaylist(false);
+    this.playlistService.setCurrentPlaylist(row);
+    console.log('current playlist:', this.playlistService.currentPlaylist());
+    this.router.navigate(['/playlist', row.id]);
   }
 }

@@ -41,6 +41,37 @@
   padding: 1rem;
   margin-bottom: 1rem;
   border-radius: 6px;
+  cursor: move;
+}
+
+.section-item:hover {
+  background: #f0f0f0;
+  border-color: #999;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cdk-drop-list-dragging .section-item:last-child {
+  display: block;
+}
+
+.cdk-drag-preview {
+  background: #e3f2fd;
+  border: 2px solid #1976d2;
+  border-radius: 6px;
+  padding: 1rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drop-list-dragging .section-item:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.sections-drop-list {
+  padding: 0.5rem 0;
 }
 
 .form-actions {
@@ -52,4 +83,9 @@
 .snack-success {
   background-color: #4caf50;
   color: #fff;
+}
+
+.example-handle {
+  color: #939191;
+  cursor: move;
 }

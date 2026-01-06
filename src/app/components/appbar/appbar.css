@@ -1,6 +1,10 @@
 .bg-primary {
   background-color: #016852 !important;
+  color: white;
+}
 
+.bg-playlist-primary {
+  background-color: #855722 !important;
   color: white;
 }
 .example-spacer {
