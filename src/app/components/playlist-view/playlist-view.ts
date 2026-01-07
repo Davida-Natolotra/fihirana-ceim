@@ -7,14 +7,44 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PlaylistsService } from '../../services/playlists/playlists.service';
-import { PlaylistInterface } from '../../models/playlist.interface';
+import { PlaylistInterface, Song } from '../../models/playlist.interface';
 import { PlaylistsfbService } from '../../services/playlists/playlistsfb.service';
-import { Lyricsfb } from '../../services/lyrics/lyricsfb.service';
-import { switchMap, forkJoin, map, of } from 'rxjs';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import {
+  CdkDragDrop,
+  DragDropModule,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { LyricsService } from '../../services/lyrics/lyrics.service';
+import { MatSortModule } from '@angular/material/sort';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { DragLists } from '../drag-lists/drag-lists';
+import { ExtralyricsService } from '../../services/extra/extralyrics.service';
 
 @Component({
   selector: 'app-playlist-view',
-  imports: [],
+  imports: [
+    MatListModule,
+    DragDropModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSlideToggleModule,
+    MatTabsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    DragLists,
+  ],
   templateUrl: './playlist-view.html',
   styleUrl: './playlist-view.css',
 })
@@ -22,7 +52,9 @@ export class PlaylistView implements OnInit {
   private route = inject(ActivatedRoute);
   playlistsService = inject(PlaylistsService);
   private playlistsfbService = inject(PlaylistsfbService);
-  private lyricsfbService = inject(Lyricsfb);
+
+  lyricService = inject(LyricsService);
+  extraLyricService = inject(ExtralyricsService);
   playlist_id = this.route.snapshot.paramMap.get('id');
 
   // Signal to track loading and playlist state
@@ -30,58 +62,84 @@ export class PlaylistView implements OnInit {
   currentPlaylist: WritableSignal<PlaylistInterface | null> = signal(null);
   error: WritableSignal<string | null> = signal(null);
 
+  isEditing: Boolean = false;
+
   ngOnInit() {
     this.isLoading.set(true);
     this.error.set(null);
 
+    this.playlistsfbService.getPlaylist(this.playlist_id!).subscribe({
+      next: (playlist) => {
+        console.log('Loaded playlist:', playlist);
+        this.currentPlaylist.set(playlist);
+        this.playlistsService.setCurrentPlaylist(playlist);
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Error loading playlist:', err);
+        this.error.set('Failed to load playlist');
+        this.isLoading.set(false);
+      },
+    });
+  }
+
+  drop(event: CdkDragDrop<Song[], any, any>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+      this.UpdateSongOrder(event.container.data);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+      this.UpdateSongOrder(event.container.data);
+    }
+  }
+
+  UpdateSongOrder(data: Song[]) {
+    const updatedPlaylist = {
+      ...this.currentPlaylist(),
+      songs: data,
+    } as PlaylistInterface;
+
     this.playlistsfbService
-      .getPlaylist(this.playlist_id!)
-      .pipe(
-        switchMap((playlist: PlaylistInterface) => {
-          // Convert songs to array if it's an object
-          let songs: any[] = [];
-          if (Array.isArray(playlist.songs)) {
-            songs = playlist.songs;
-          } else if (playlist.songs && typeof playlist.songs === 'object') {
-            // If it's an object, convert object values to array
-            songs = [Object.values(playlist.songs)];
-          }
-
-          const lyricsObservables = songs.map((song: any) =>
-            this.lyricsfbService.getLyric(song.id || song)
-          );
-
-          if (lyricsObservables.length === 0) {
-            return of({ ...playlist, songs: [] });
-          }
-
-          return forkJoin(lyricsObservables).pipe(
-            map((lyrics) => {
-              const enrichedSongs = lyrics
-                .filter((lyric) => lyric.id !== undefined)
-                .map((lyric) => ({
-                  ...lyric,
-                  id: lyric.id!,
-                  isExtra: false,
-                }));
-              return {
-                ...playlist,
-                songs: enrichedSongs,
-              };
-            })
-          );
-        })
-      )
+      .updatePlaylist(this.playlist_id!, updatedPlaylist)
       .subscribe({
-        next: (playlist) => {
-          this.currentPlaylist.set(playlist);
-          this.playlistsService.setCurrentPlaylist(playlist);
-          this.isLoading.set(false);
+        next: () => {
+          console.log('Playlist updated successfully');
+          this.currentPlaylist.set(updatedPlaylist);
         },
         error: (err) => {
-          console.error('Error loading playlist:', err);
-          this.error.set('Failed to load playlist');
-          this.isLoading.set(false);
+          console.error('Error updating playlist:', err);
+        },
+      });
+  }
+
+  removeSong(songId: string) {
+    const updatedSongs = [...(this.currentPlaylist()!.songs || [])];
+    const index = updatedSongs.findIndex((song) => song.id === songId);
+    if (index !== -1) {
+      updatedSongs.splice(index, 1);
+    }
+    const updatedPlaylist = {
+      ...this.currentPlaylist(),
+      songs: updatedSongs,
+    } as PlaylistInterface;
+    this.playlistsfbService
+      .updatePlaylist(this.playlist_id!, updatedPlaylist)
+      .subscribe({
+        next: () => {
+          console.log('Song removed from playlist successfully');
+          this.currentPlaylist.set(updatedPlaylist);
+        },
+        error: (err) => {
+          console.error('Error removing song from playlist:', err);
         },
       });
   }

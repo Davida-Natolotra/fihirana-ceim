@@ -1,1 +1,61 @@
-<h4>{{playlistsService.currentPlaylist()!.name}}</h4>
+<div class="header-container">
+  <h3>{{playlistsService.currentPlaylist()?.name}}</h3>
+  <mat-slide-toggle
+    class="example-margin"
+    [checked]="isEditing"
+    (change)="isEditing = $event.checked"
+  >
+    Editer
+  </mat-slide-toggle>
+</div>
+<mat-action-list
+  cdkDropList
+  [cdkDropListData]="playlistsService.currentPlaylist()!.songs"
+  class="example-list"
+  (cdkDropListDropped)="drop($event)"
+>
+  @for (song of playlistsService.currentPlaylist()!.songs; track song.id) {
+
+  <mat-list-item mat-list-item class="example-box" cdkDrag>
+    <div class="song-container">
+      <div class="song-left">
+        @if(isEditing){
+        <button
+          mat-icon-button
+          aria-label="Close"
+          (click)="removeSong(song.id)"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        }
+        <span class="song-title">{{song.title}}</span>
+      </div>
+      <div class="song-right">
+        <span class="song-key">{{song.key}}</span>
+        <button mat-icon-button aria-label="Play">
+          <mat-icon>play_arrow</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-list-item>
+
+  }
+</mat-action-list>
+
+@if(isEditing){
+<br />
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+  <mat-tab label="Fihirana CEIM">
+    <app-drag-lists
+      [lyrics]="lyricService.lyricsSig()"
+      [isExtra]="false"
+    ></app-drag-lists>
+  </mat-tab>
+  <mat-tab label="Hira hafa">
+    <app-drag-lists
+      [lyrics]="extraLyricService.extraLyricSig()"
+      [isExtra]="true"
+    ></app-drag-lists>
+  </mat-tab>
+</mat-tab-group>
+}

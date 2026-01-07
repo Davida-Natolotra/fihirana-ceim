@@ -10,4 +10,6 @@ export interface PlaylistInterface {
 export interface Song {
   id: string;
   isExtra: boolean;
+  key?: string;
+  title: string;
 }

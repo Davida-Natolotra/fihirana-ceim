@@ -63,16 +63,16 @@ export class PlaylistsfbService {
         })
     );
   }
-  updatePlaylist(id: string, lyric: PlaylistInterface): Observable<void> {
-    const lyricDoc = doc(this.firestore, 'lyrics', id);
+  updatePlaylist(id: string, playlist: PlaylistInterface): Observable<void> {
+    const playlistDoc = doc(this.firestore, 'playlists', id);
     return from(
-      setDoc(lyricDoc, lyric, { merge: true })
+      setDoc(playlistDoc, playlist, { merge: true })
         .then(() => {
-          this.notifications.showSuccess('Lyric updated successfully');
+          this.notifications.showSuccess('Playlist updated successfully');
         })
         .catch((error) => {
           this.notifications.showError(
-            `Error updating lyric: ${error.message}`
+            `Error updating playlist: ${error.message}`
           );
           throw error; // Re-throw the error to allow further handling if needed
         })
