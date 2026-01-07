@@ -1,5 +1,5 @@
 export interface PlaylistInterface {
-  id?: string; // Firestore document ID
+  id: string; // Firestore document ID
   name: string;
   description?: string;
   songs: Song[]; // Array of LyricInterface IDs

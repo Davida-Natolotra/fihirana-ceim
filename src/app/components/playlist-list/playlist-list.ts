@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  ViewChild,
+} from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,6 +17,10 @@ import { PlaylistInterface } from '../../models/playlist.interface';
 import { PlaylistsfbService } from '../../services/playlists/playlistsfb.service';
 import { PlaylistsService } from '../../services/playlists/playlists.service';
 
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { PlaylistCreateDialog } from '../../dialogs/playlist-create-dialog/playlist-create-dialog';
+import { DeletePlaylistDialog } from '../../dialogs/delete-playlist-dialog/delete-playlist-dialog';
+
 @Component({
   selector: 'app-playlist-list',
   imports: [
@@ -22,19 +32,33 @@ import { PlaylistsService } from '../../services/playlists/playlists.service';
     MatIconModule,
     RouterModule,
     MatButtonModule,
+    MatDialogModule,
   ],
   templateUrl: './playlist-list.html',
   styleUrl: './playlist-list.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlaylistList {
   router = inject(Router);
-  displayedColumns: string[] = ['name'];
+  displayedColumns: string[] = ['name', 'action'];
   dataSource = new MatTableDataSource([] as PlaylistInterface[]);
   playlistService = inject(PlaylistsService);
   playlistsFirebaseService = inject(PlaylistsfbService);
-
+  readonly dialog = inject(MatDialog);
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator)
+  paginator: MatPaginator = new MatPaginator();
+
   constructor(private cdr: ChangeDetectorRef) {}
+
+  openDialog() {
+    this.dialog.open(PlaylistCreateDialog);
+  }
+
+  deleteDialog(data: PlaylistInterface) {
+    this.dialog.open(DeletePlaylistDialog, { data });
+  }
+
   ngOnInit(): void {
     this.playlistsFirebaseService
       .getPlaylists()
@@ -50,8 +74,6 @@ export class PlaylistList {
     this.dataSource.data = this.playlistService.playlistsSig();
   }
 
-  @ViewChild(MatPaginator)
-  paginator: MatPaginator = new MatPaginator();
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.sort.active = 'name'; // or any other column you want to sort by
@@ -71,5 +93,10 @@ export class PlaylistList {
     this.playlistService.setCurrentPlaylist(row);
     console.log('current playlist:', this.playlistService.currentPlaylist());
     this.router.navigate(['/playlist', row.id]);
+  }
+
+  deletePlaylist(element: PlaylistInterface) {
+    this.deleteDialog(element);
+    // TODO: Implement delete functionality
   }
 }

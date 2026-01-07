@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Suppression de playlist</h2>
+<mat-dialog-content
+  >Confirmez-vous la suppression du playlist {{data.name}} ?</mat-dialog-content
+>
+<mat-dialog-actions>
+  <button type="button" mat-button mat-dialog-close>Annuler</button>
+  <button type="button" mat-flat-button (click)="confirmDelete(data!.id)">
+    Confirmer
+  </button>
+</mat-dialog-actions>

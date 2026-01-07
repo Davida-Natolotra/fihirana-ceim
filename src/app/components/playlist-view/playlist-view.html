@@ -41,21 +41,25 @@
 
   }
 </mat-action-list>
-
+<br>
+<button mat-flat-button (click)="goBackLouange()">Retour</button>
 @if(isEditing){
-<br />
-<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
-  <mat-tab label="Fihirana CEIM">
-    <app-drag-lists
-      [lyrics]="lyricService.lyricsSig()"
-      [isExtra]="false"
-    ></app-drag-lists>
-  </mat-tab>
-  <mat-tab label="Hira hafa">
-    <app-drag-lists
-      [lyrics]="extraLyricService.extraLyricSig()"
-      [isExtra]="true"
-    ></app-drag-lists>
-  </mat-tab>
-</mat-tab-group>
+<div class="tab-container">
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" >
+    <mat-tab label="Fihirana CEIM">
+      <app-drag-lists
+        [lyrics]="lyricService.lyricsSig()"
+        [isExtra]="false"
+      ></app-drag-lists>
+    </mat-tab>
+    <mat-tab label="Hira hafa">
+      <app-drag-lists
+        [lyrics]="extraLyricService.extraLyricSig()"
+        [isExtra]="true"
+      ></app-drag-lists>
+    </mat-tab>
+  </mat-tab-group>
+
+</div>
+
 }

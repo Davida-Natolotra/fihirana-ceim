@@ -5,7 +5,7 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { PlaylistsService } from '../../services/playlists/playlists.service';
 import { PlaylistInterface, Song } from '../../models/playlist.interface';
 import { PlaylistsfbService } from '../../services/playlists/playlistsfb.service';
@@ -52,7 +52,7 @@ export class PlaylistView implements OnInit {
   private route = inject(ActivatedRoute);
   playlistsService = inject(PlaylistsService);
   private playlistsfbService = inject(PlaylistsfbService);
-
+private router = inject(Router);
   lyricService = inject(LyricsService);
   extraLyricService = inject(ExtralyricsService);
   playlist_id = this.route.snapshot.paramMap.get('id');
@@ -142,5 +142,8 @@ export class PlaylistView implements OnInit {
           console.error('Error removing song from playlist:', err);
         },
       });
+  }
+  goBackLouange(){
+    this.router.navigate(['louange']);
   }
 }

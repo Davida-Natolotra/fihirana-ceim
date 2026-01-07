@@ -2,3 +2,16 @@
   background-color: #d4efe9;
   cursor: pointer;
 }
+
+.hcontainer {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+/* Align action column to the right */
+.mat-column-action {
+  flex: 0 0 auto;
+  text-align: right;
+}
