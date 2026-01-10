@@ -49,7 +49,11 @@
 <button (click)="goBackLouange()" mat-flat-button>Retour</button>
 @if (isEditing) {
 <div class="tab-container">
-  <mat-tab-group mat-align-tabs="start" mat-stretch-tabs="false">
+  @if(isLoading()){
+  <mat-spinner></mat-spinner>}@else {<mat-tab-group
+    mat-align-tabs="start"
+    mat-stretch-tabs="false"
+  >
     <mat-tab label="Fihirana CEIM">
       <br />
       <app-drag-lists
@@ -63,8 +67,8 @@
         [isExtra]="true"
         [lyrics]="extraLyricService.extraLyricSig()"
       ></app-drag-lists>
-    </mat-tab>
-  </mat-tab-group>
+    </mat-tab> </mat-tab-group
+  >}
 </div>
 
 }

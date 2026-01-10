@@ -30,6 +30,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { DragLists } from '../drag-lists/drag-lists';
 import { ExtralyricsService } from '../../services/extra/extralyrics.service';
 import { SongService } from '../../services/song/song.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-playlist-view',
@@ -46,6 +47,7 @@ import { SongService } from '../../services/song/song.service';
     MatPaginatorModule,
     MatSortModule,
     DragLists,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './playlist-view.html',
   styleUrl: './playlist-view.css',
@@ -63,7 +65,6 @@ export class PlaylistView implements OnInit {
   protected readonly open = open;
   private route = inject(ActivatedRoute);
   playlist_id = this.route.snapshot.paramMap.get('id');
-  private songService = inject(SongService);
   private router = inject(Router);
 
   ngOnInit() {

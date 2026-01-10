@@ -1,8 +1,11 @@
 <mat-form-field appearance="outline" class="w-full mb-4">
   <mat-label>Rechercher</mat-label>
-  <input #input (keyup)="applyFilter($event)" matInput placeholder=""/>
+  <input #input (keyup)="applyFilter($event)" matInput placeholder="" />
 </mat-form-field>
 
+@if(isLoading){
+<mat-spinner></mat-spinner>
+} @else {
 <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
   <!-- Position Column -->
   <ng-container matColumnDef="songNumber">
@@ -32,6 +35,7 @@
     </td>
   </tr>
 </table>
+}
 <mat-paginator
   [pageSizeOptions]="pageSizeOptions"
   aria-label="Sélecteur de page"

@@ -1,15 +1,24 @@
-import {AfterViewInit, ChangeDetectorRef, Component, inject, Input, OnInit, ViewChild,} from '@angular/core';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatSort, MatSortModule} from '@angular/material/sort';
-import {Router, RouterModule} from '@angular/router';
-import {LyricInterface} from '../../models/lyric.interface';
-import {LyricsService} from '../../services/lyrics/lyrics.service';
-import {Lyricsfb} from '../../services/lyrics/lyricsfb.service';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { Router, RouterModule } from '@angular/router';
+import { LyricInterface } from '../../models/lyric.interface';
+import { LyricsService } from '../../services/lyrics/lyrics.service';
+import { Lyricsfb } from '../../services/lyrics/lyricsfb.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-lists',
@@ -22,6 +31,7 @@ import {MatButtonModule} from '@angular/material/button';
     MatIconModule,
     RouterModule,
     MatButtonModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './lists.html',
   styleUrl: './lists.css',
@@ -36,9 +46,9 @@ export class Lists implements OnInit, AfterViewInit {
   @Input() pageSizeOptions: number[] = [5, 10, 25, 100];
   @ViewChild(MatPaginator)
   paginator: MatPaginator = new MatPaginator();
+  isLoading: boolean = true;
 
-  constructor(private cdr: ChangeDetectorRef) {
-  }
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.lyricsFirebaseService
@@ -48,6 +58,7 @@ export class Lists implements OnInit, AfterViewInit {
         this.lyricService.lyricsSig.set(lyrics);
         // Update the data source for the table
         this.dataSource.data = lyrics;
+        this.isLoading = false;
       });
     // Initialize the data source with the lyrics signal
     this.dataSource.data = this.lyricService.lyricsSig();

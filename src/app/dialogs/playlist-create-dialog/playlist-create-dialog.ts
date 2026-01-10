@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import {FormBuilder, FormsModule, isFormControl, ReactiveFormsModule, Validators,} from '@angular/forms';
@@ -29,6 +29,7 @@ export class PlaylistCreateDialog implements OnInit {
     name: ['', [Validators.minLength(3), Validators.required]],
   });
   data: { isEdit: boolean, playlist: PlaylistInterface | null } = inject(MAT_DIALOG_DATA);
+  cdr = inject(ChangeDetectorRef);
   protected readonly isFormControl = isFormControl;
 
   ngOnInit() {
@@ -44,6 +45,7 @@ export class PlaylistCreateDialog implements OnInit {
           {...this.data.playlist, name: playlistName} as PlaylistInterface
         ).subscribe(() => {
           this.dialogRef.close();
+          this.cdr.markForCheck();
         });
       } else {
         this.playlistFbService
@@ -53,6 +55,7 @@ export class PlaylistCreateDialog implements OnInit {
           } as PlaylistInterface)
           .subscribe(() => {
             this.dialogRef.close();
+            this.cdr.markForCheck();
           });
       }
     }
