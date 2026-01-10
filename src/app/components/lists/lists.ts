@@ -1,22 +1,15 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { Router, RouterModule } from '@angular/router';
-import { LyricInterface } from '../../models/lyric.interface';
-import { LyricsService } from '../../services/lyrics/lyrics.service';
-import { Lyricsfb } from '../../services/lyrics/lyricsfb.service';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import {AfterViewInit, ChangeDetectorRef, Component, inject, Input, OnInit, ViewChild,} from '@angular/core';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import {MatSort, MatSortModule} from '@angular/material/sort';
+import {Router, RouterModule} from '@angular/router';
+import {LyricInterface} from '../../models/lyric.interface';
+import {LyricsService} from '../../services/lyrics/lyrics.service';
+import {Lyricsfb} from '../../services/lyrics/lyricsfb.service';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-lists',
@@ -40,7 +33,13 @@ export class Lists implements OnInit, AfterViewInit {
   lyricService = inject(LyricsService);
   lyricsFirebaseService = inject(Lyricsfb);
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private cdr: ChangeDetectorRef) {}
+  @Input() pageSizeOptions: number[] = [5, 10, 25, 100];
+  @ViewChild(MatPaginator)
+  paginator: MatPaginator = new MatPaginator();
+
+  constructor(private cdr: ChangeDetectorRef) {
+  }
+
   ngOnInit(): void {
     this.lyricsFirebaseService
       .getLyrics()
@@ -54,8 +53,6 @@ export class Lists implements OnInit, AfterViewInit {
     this.dataSource.data = this.lyricService.lyricsSig();
   }
 
-  @ViewChild(MatPaginator)
-  paginator: MatPaginator = new MatPaginator();
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.sort.active = 'songNumber'; // or any other column you want to sort by

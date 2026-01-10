@@ -1,54 +1,56 @@
 <mat-card class="lyric-card mat-elevation-z2 mat-typography">
   <mat-card-header class="lyric-header">
     <mat-card-title-group fxLayout="column" fxLayoutAlign="center center">
-      @if(!extra) {
-      <mat-card-subtitle
-        class="song-number mat-body-1"
-        fxLayout="row"
-        fxLayoutAlign="start center"
-      >
-        <strong>HIRA FAHA {{ lyric.songNumber || null }}</strong>
-      </mat-card-subtitle>
+      @if (!extra) {
+        <mat-card-subtitle
+          class="song-number mat-body-1"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+        >
+          <strong>HIRA FAHA {{ lyric.songNumber || null }}</strong>
+        </mat-card-subtitle>
       }
       <mat-card-title class="song-title mat-subheading-2"
-        >{{ lyric.title }}</mat-card-title
+      >{{ lyric.title }}
+      </mat-card-title
       >
       <mat-card-subtitle class="mat-caption">
-        @if(lyric.key && louange) {
-        <i>Clé: {{ lyric.key }}</i>}
+        @if (lyric.key && louange) {
+          <i>Clé: {{ lyric.key }}</i>
+        }
       </mat-card-subtitle>
     </mat-card-title-group>
   </mat-card-header>
 
   <mat-card-content>
-    @if (lyric.sections.length > 0) {
-    <section class="lyric-body">
-      @for (section of lyric.sections; track section) {
-      <div class="lyric-section">
-        <mat-divider class="section-divider"></mat-divider>
-        <h3
-          [class]="section.type === 'chorus' ? 'section-subtitle-chorus' : 'section-subtitle'"
-        >
-          {{ section.subtitle }}
-        </h3>
-        @if (section.type !== "chorus") {
-        <div class="lyric-lines">
-          @for (line of section.lines; track line) {
-          <p class="lyric-line mat-body-1">{{ line }}</p>
-          }
-        </div>
-        } @else {
-        <div class="lyric-lines-chorus">
-          @for (line of section.lines; track line) {
-          <p class="lyric-line mat-body-1">{{ line }}</p>
-          }
-        </div>
+    @if (lyric.sections && lyric.sections.length > 0) {
+      <section class="lyric-body">
+        @for (section of lyric.sections; track $index) {
+          <div class="lyric-section">
+            <mat-divider class="section-divider"></mat-divider>
+            <h3
+              [class]="section.type === 'chorus' ? 'section-subtitle-chorus' : 'section-subtitle'"
+            >
+              {{ section.subtitle }}
+            </h3>
+            @if (section.type !== "chorus") {
+              <div class="lyric-lines">
+                @for (line of section.lines; track $index) {
+                  <p class="lyric-line mat-body-1">{{ line }}</p>
+                }
+              </div>
+            } @else {
+              <div class="lyric-lines-chorus">
+                @for (line of section.lines; track $index) {
+                  <p class="lyric-line mat-body-1">{{ line }}</p>
+                }
+              </div>
+            }
+          </div>
         }
-      </div>
-      }
-    </section>
+      </section>
     } @else {
-    <p class="no-lyrics mat-caption">No lyrics available.</p>
+      <p class="no-lyrics mat-caption">No lyrics available.</p>
     }
   </mat-card-content>
 </mat-card>

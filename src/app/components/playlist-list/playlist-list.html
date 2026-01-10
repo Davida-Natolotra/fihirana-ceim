@@ -10,9 +10,9 @@
   </mat-form-field>
   <button
     (click)="openDialog()"
-    mat-flat-button
-    color="primary"
     aria-label="Ajouter une playlist"
+    color="primary"
+    mat-flat-button
   >
     <mat-icon>add</mat-icon>
     Ajouter
@@ -30,19 +30,22 @@
 
   <!-- Name Column -->
   <ng-container matColumnDef="name">
-    <th *matHeaderCellDef mat-header-cell>Titre</th>
+    <th *matHeaderCellDef mat-header-cell style="font-weight: bold;">Playlist</th>
     <td *matCellDef="let element" mat-cell>{{ element.name }}</td>
   </ng-container>
 
   <!-- Action Column -->
   <ng-container matColumnDef="action">
-    <th *matHeaderCellDef mat-header-cell>Action</th>
+    <th *matHeaderCellDef mat-header-cell></th>
     <td *matCellDef="let element" mat-cell>
+      <button (click)="editPlaylistDialog(element)" aria-label="Editer" mat-icon-button>
+        <mat-icon>edit</mat-icon>
+      </button>
       <button
         (click)="deletePlaylist(element); $event.stopPropagation()"
-        mat-icon-button
-        color="warn"
         aria-label="Supprimer"
+        color="warn"
+        mat-icon-button
       >
         <mat-icon>close</mat-icon>
       </button>

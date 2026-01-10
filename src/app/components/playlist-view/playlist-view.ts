@@ -1,33 +1,23 @@
-import {
-  Component,
-  inject,
-  OnInit,
-  signal,
-  WritableSignal,
-} from '@angular/core';
+import {Component, inject, OnInit, signal, WritableSignal,} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import { PlaylistsService } from '../../services/playlists/playlists.service';
-import { PlaylistInterface, Song } from '../../models/playlist.interface';
-import { PlaylistsfbService } from '../../services/playlists/playlistsfb.service';
-import { MatListModule } from '@angular/material/list';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import {
-  CdkDragDrop,
-  DragDropModule,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table';
-import { LyricsService } from '../../services/lyrics/lyrics.service';
-import { MatSortModule } from '@angular/material/sort';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { DragLists } from '../drag-lists/drag-lists';
-import { ExtralyricsService } from '../../services/extra/extralyrics.service';
+import {PlaylistsService} from '../../services/playlists/playlists.service';
+import {PlaylistInterface, Song} from '../../models/playlist.interface';
+import {PlaylistsfbService} from '../../services/playlists/playlistsfb.service';
+import {MatListModule} from '@angular/material/list';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem,} from '@angular/cdk/drag-drop';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatTableModule} from '@angular/material/table';
+import {LyricsService} from '../../services/lyrics/lyrics.service';
+import {MatSortModule} from '@angular/material/sort';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {DragLists} from '../drag-lists/drag-lists';
+import {ExtralyricsService} from '../../services/extra/extralyrics.service';
+import {SongService} from '../../services/song/song.service';
 
 @Component({
   selector: 'app-playlist-view',
@@ -49,26 +39,26 @@ import { ExtralyricsService } from '../../services/extra/extralyrics.service';
   styleUrl: './playlist-view.css',
 })
 export class PlaylistView implements OnInit {
-  private route = inject(ActivatedRoute);
   playlistsService = inject(PlaylistsService);
-  private playlistsfbService = inject(PlaylistsfbService);
-private router = inject(Router);
   lyricService = inject(LyricsService);
   extraLyricService = inject(ExtralyricsService);
-  playlist_id = this.route.snapshot.paramMap.get('id');
-
   // Signal to track loading and playlist state
   isLoading: WritableSignal<boolean> = signal(true);
   currentPlaylist: WritableSignal<PlaylistInterface | null> = signal(null);
   error: WritableSignal<string | null> = signal(null);
-
   isEditing: Boolean = false;
+  playlistsfbService = inject(PlaylistsfbService);
+  protected readonly open = open;
+  private route = inject(ActivatedRoute);
+  playlist_id = this.route.snapshot.paramMap.get('id');
+  private songService = inject(SongService);
+  private router = inject(Router);
 
   ngOnInit() {
     this.isLoading.set(true);
     this.error.set(null);
 
-    this.playlistsfbService.getPlaylist(this.playlist_id!).subscribe({
+    this.playlistsfbService.getPlaylistLive(this.playlist_id!).subscribe({
       next: (playlist) => {
         console.log('Loaded playlist:', playlist);
         this.currentPlaylist.set(playlist);
@@ -143,7 +133,16 @@ private router = inject(Router);
         },
       });
   }
-  goBackLouange(){
+
+  goBackLouange() {
     this.router.navigate(['louange']);
+  }
+
+  openSongRead(songId: string, isExtra: boolean) {
+    if (isExtra) {
+      this.router.navigate(['song/extralyric', songId]);
+    } else {
+      this.router.navigate(['song', songId]);
+    }
   }
 }

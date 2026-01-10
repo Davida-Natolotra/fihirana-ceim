@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { Lyricsfb } from '../lyrics/lyricsfb.service';
 import { ExtrafbService } from '../extra/extrafb.service';
 import { Observable } from 'rxjs';
@@ -7,27 +7,41 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class SongService {
-  songIsExtra = signal(false);
-
-  setSongIsExtra(isExtra: boolean) {
-    this.songIsExtra.set(isExtra);
-  }
-
   constructor(
     private lyricsfb: Lyricsfb,
     private extralycsfb: ExtrafbService
   ) {}
 
-  fetchSong(songId: string): Observable<any> {
-    if (this.songIsExtra()) {
+  songIsExtra: WritableSignal<boolean> = signal(false);
+
+  setSongExtra(value: boolean) {
+    this.songIsExtra.set(value);
+  }
+
+  fetchSong({
+    songId,
+    isExtra,
+  }: {
+    songId: string;
+    isExtra: boolean;
+  }): Observable<any> {
+    if (isExtra) {
       return this.extralycsfb.getExtraLyric(songId);
     } else {
       return this.lyricsfb.getLyric(songId);
     }
   }
 
-  updateSong(songId: string, data: any): Observable<void> {
-    if (this.songIsExtra()) {
+  updateSong({
+    songId,
+    isExtra,
+    data,
+  }: {
+    songId: string;
+    isExtra: boolean;
+    data: any;
+  }): Observable<void> {
+    if (isExtra) {
       return this.extralycsfb.updateLyric(songId, data);
     } else {
       return this.lyricsfb.updateLyric(songId, data);

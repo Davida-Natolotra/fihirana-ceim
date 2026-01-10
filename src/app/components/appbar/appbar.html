@@ -1,33 +1,13 @@
 <mat-toolbar class="navbar-brand app-toolbar bg-primary">
-  <img src="assets/logo.svg" alt="App Logo" class="app-logo" />
+  <img alt="App Logo" class="app-logo" src="assets/logo.svg"/>
   <span (click)="goBack()">Fihirana CEIM</span>
   <span class="spacer"></span>
-  <ng-container *ngIf="user$ | async as user; else loginLinks">
-    <button
-      mat-button
-      [matMenuTriggerFor]="userMenu"
-      class="user-avatar-button"
-    >
-      <span class="user-initials">{{ userInitial$ | async }}</span>
+  <button [matMenuTriggerFor]="menu" aria-label="Menu" matIconButton>
+    <mat-icon class="menu-icon">more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button (click)="gotoLouange()" mat-menu-item>
+      Louange
     </button>
-    <mat-menu #userMenu="matMenu">
-      <button mat-menu-item disabled>
-        <mat-icon>person</mat-icon>
-        <span>{{ user.displayName || user.email }}</span>
-      </button>
-      <mat-divider></mat-divider>
-      <button mat-menu-item routerLink="/admin">
-        <mat-icon>dashboard</mat-icon>
-        <span>Admin Panel</span>
-      </button>
-      <button mat-menu-item (click)="onLogout()">
-        <mat-icon>logout</mat-icon>
-        <span>Logout</span>
-      </button>
-    </mat-menu>
-  </ng-container>
-
-  <ng-template #loginLinks>
-    <!-- <a mat-button routerLink="/login"> <mat-icon>login</mat-icon> Login </a> -->
-  </ng-template>
+  </mat-menu>
 </mat-toolbar>

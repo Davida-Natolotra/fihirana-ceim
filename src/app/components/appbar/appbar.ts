@@ -1,25 +1,22 @@
-import { Component, inject } from '@angular/core';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-
-import { CommonModule } from '@angular/common';
-import { RouterLink, Router, ActivatedRoute } from '@angular/router'; // For routerLink and navigation
-
+import {Component, inject} from '@angular/core';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 // Angular Material Imports
-
-import { MatMenuModule } from '@angular/material/menu';
-import { MatDividerModule } from '@angular/material/divider'; // For mat-divider in menu
-
+import {MatMenuModule} from '@angular/material/menu';
+import {CommonModule} from '@angular/common';
+import {ActivatedRoute, Router} from '@angular/router'; // For routerLink and navigation
+import {MatDividerModule} from '@angular/material/divider'; // For mat-divider in menu
 // Services
-import { AuthService } from '../../services/auth/auth.service';
-import { Notification } from '../../services/notification/notification.service';
+import {AuthService} from '../../services/auth/auth.service';
+import {Notification} from '../../services/notification/notification.service';
 
 // RxJS
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { User } from '@angular/fire/auth';
-import { PlaylistsService } from '../../services/playlists/playlists.service';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {User} from '@angular/fire/auth';
+import {PlaylistsService} from '../../services/playlists/playlists.service';
+
 @Component({
   selector: 'app-appbar',
   imports: [
@@ -27,9 +24,8 @@ import { PlaylistsService } from '../../services/playlists/playlists.service';
     MatIconModule,
     MatButtonModule,
     CommonModule,
-    RouterLink,
     MatMenuModule,
-    MatDividerModule,
+    MatDividerModule
   ],
   templateUrl: './appbar.html',
   styleUrl: './appbar.css',
@@ -43,14 +39,11 @@ export class Appbar {
 
   user$: Observable<User | null> | undefined;
   userInitial$: Observable<string> | undefined;
-  goBack() {
-    this.router.navigate(['']);
-  }
 
   constructor(
     private authService: AuthService,
     private notificationService: Notification,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
     // These observables are derived from AuthService and will be used in the template
     this.user$ = this.authService.getCurrentUser();
@@ -73,6 +66,14 @@ export class Appbar {
     } else {
       this.Playlist.setIsPlaylist(false);
     }
+  }
+
+  goBack() {
+    this.router.navigate(['']);
+  }
+
+  gotoLouange() {
+    this.router.navigate(['louange']);
   }
 
   ngOnInit(): void {

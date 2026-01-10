@@ -1,0 +1,12 @@
+.edit-fab {
+  position: fixed;
+  right: 24px;
+  top: 50%;
+  z-index: 1000;
+  opacity: 0.5;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.edit-fab:hover {
+  opacity: 1;
+}

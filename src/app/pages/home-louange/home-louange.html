@@ -1,15 +1,17 @@
 <div class="container">
-  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
-    <mat-tab label="Fihirana">
-      <h2>Lisitry ny hira</h2>
-      <app-lists></app-lists>
-      <hr />
-      <h2>Lisitra fanampiny</h2>
-      <app-extra-lists></app-extra-lists>
-    </mat-tab>
+  <mat-tab-group mat-align-tabs="start" mat-stretch-tabs="false">
     <mat-tab label="Playlist">
-      <h2>Playlist</h2>
+      <br>
       <app-playlist-list></app-playlist-list
-    ></mat-tab>
+      >
+    </mat-tab>
+    <mat-tab label="Fihirana CEIM">
+      <br>
+      <app-lists [pageSizeOptions]="[10,50,100]"></app-lists>
+    </mat-tab>
+    <mat-tab label="Hira hafa">
+      <br>
+      <app-extra-lists [pageSizeOptions]="[10,50,100]"></app-extra-lists>
+    </mat-tab>
   </mat-tab-group>
 </div>

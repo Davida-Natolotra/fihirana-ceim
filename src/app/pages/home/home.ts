@@ -1,8 +1,7 @@
-import { Component, inject } from '@angular/core';
-import { Lists } from '../../components/lists/lists';
-import { Router } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { LouangeService } from '../../services/louange/louange.service';
+import {Component} from '@angular/core';
+import {Lists} from '../../components/lists/lists';
+import {MatButtonModule} from '@angular/material/button';
+import {LouangeService} from '../../services/louange/louange.service';
 
 @Component({
   selector: 'app-home',
@@ -11,10 +10,8 @@ import { LouangeService } from '../../services/louange/louange.service';
   styleUrl: './home.css',
 })
 export class Home {
-  constructor(private router: Router, private louangeService: LouangeService) {
+  constructor(private louangeService: LouangeService) {
     this.louangeService.setLouangeSig(false);
   }
-  gotoLouange() {
-    this.router.navigate(['louange']);
-  }
+
 }
