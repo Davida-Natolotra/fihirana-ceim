@@ -1,36 +1,23 @@
-import {
-  Component,
-  inject,
-  Input,
-  OnInit,
-  signal,
-  WritableSignal,
-} from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PlaylistsService } from '../../services/playlists/playlists.service';
-import { PlaylistInterface, Song } from '../../models/playlist.interface';
-import { PlaylistsfbService } from '../../services/playlists/playlistsfb.service';
-import { MatListModule } from '@angular/material/list';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import {
-  CdkDragDrop,
-  DragDropModule,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table';
-import { LyricsService } from '../../services/lyrics/lyrics.service';
-import { MatSortModule } from '@angular/material/sort';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { DragLists } from '../drag-lists/drag-lists';
-import { ExtralyricsService } from '../../services/extra/extralyrics.service';
-import { SongService } from '../../services/song/song.service';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {Component, inject, OnInit, signal, WritableSignal,} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {PlaylistsService} from '../../services/playlists/playlists.service';
+import {PlaylistInterface, Song} from '../../models/playlist.interface';
+import {PlaylistsfbService} from '../../services/playlists/playlistsfb.service';
+import {MatListModule} from '@angular/material/list';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem,} from '@angular/cdk/drag-drop';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatTableModule} from '@angular/material/table';
+import {LyricsService} from '../../services/lyrics/lyrics.service';
+import {MatSortModule} from '@angular/material/sort';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {DragLists} from '../drag-lists/drag-lists';
+import {ExtralyricsService} from '../../services/extra/extralyrics.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-playlist-view',
