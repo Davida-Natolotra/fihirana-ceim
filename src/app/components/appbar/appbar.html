@@ -1,13 +1,11 @@
 <mat-toolbar class="navbar-brand app-toolbar bg-primary">
-  <img alt="App Logo" class="app-logo" src="assets/logo.svg"/>
+  <img alt="App Logo" class="app-logo" src="assets/logo.svg" />
   <span (click)="goBack()">Fihirana CEIM</span>
   <span class="spacer"></span>
   <button [matMenuTriggerFor]="menu" aria-label="Menu" matIconButton>
     <mat-icon class="menu-icon">more_vert</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button (click)="gotoLouange()" mat-menu-item>
-      Louange
-    </button>
+    <button (click)="gotoLouange()" mat-menu-item>Louange</button>
   </mat-menu>
 </mat-toolbar>

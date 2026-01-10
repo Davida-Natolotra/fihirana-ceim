@@ -1,6 +1,6 @@
 .bg-primary {
-  background-color: #016852 !important;
-  color: white;
+  background-color: var(--mat-sys-primary) !important;
+  color: var(--mat-sys-on-primary); /* Ensures text is readable */
 }
 
 .bg-playlist-primary {

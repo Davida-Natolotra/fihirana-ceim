@@ -16,52 +16,55 @@
 >
   @for (song of playlistsService.currentPlaylist()!.songs; track song.id) {
 
-    <mat-list-item cdkDrag class="example-box" mat-list-item>
-      <div class="song-container">
-        <div class="song-left">
-          @if (isEditing) {
-            <button
-              (click)="removeSong(song.id)"
-              aria-label="Close"
-              mat-icon-button
-            >
-              <mat-icon>close</mat-icon>
-            </button>
-          }
-          <span class="song-title">{{ song.title }}</span>
-        </div>
-        <div class="song-right">
-          <span class="song-key">{{ song.key }}</span>
-          <button (click)="openSongRead(song.id,song.isExtra)" aria-label="Play" mat-icon-button>
-            <mat-icon>play_arrow</mat-icon>
-          </button>
-        </div>
+  <mat-list-item cdkDrag class="example-box" mat-list-item>
+    <div class="song-container">
+      <div class="song-left">
+        @if (isEditing) {
+        <button
+          (click)="removeSong(song.id)"
+          aria-label="Close"
+          mat-icon-button
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        }
+        <span class="song-title">{{ song.title }}</span>
       </div>
-    </mat-list-item>
+      <div class="song-right">
+        <span class="song-key">{{ song.key }}</span>
+        <button
+          (click)="openSongRead(song.id,song.isExtra)"
+          aria-label="Play"
+          mat-icon-button
+        >
+          <mat-icon>play_arrow</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-list-item>
 
   }
 </mat-action-list>
-<br>
+<br />
 <button (click)="goBackLouange()" mat-flat-button>Retour</button>
 @if (isEditing) {
-  <div class="tab-container">
-    <mat-tab-group mat-align-tabs="start" mat-stretch-tabs="false">
-      <mat-tab label="Fihirana CEIM">
-        <br>
-        <app-drag-lists
-          [isExtra]="false"
-          [lyrics]="lyricService.lyricsSig()"
-        ></app-drag-lists>
-      </mat-tab>
-      <mat-tab label="Hira hafa">
-        <br>
-        <app-drag-lists
-          [isExtra]="true"
-          [lyrics]="extraLyricService.extraLyricSig()"
-        ></app-drag-lists>
-      </mat-tab>
-    </mat-tab-group>
-
-  </div>
+<div class="tab-container">
+  <mat-tab-group mat-align-tabs="start" mat-stretch-tabs="false">
+    <mat-tab label="Fihirana CEIM">
+      <br />
+      <app-drag-lists
+        [isExtra]="false"
+        [lyrics]="lyricService.lyricsSig()"
+      ></app-drag-lists>
+    </mat-tab>
+    <mat-tab label="Hira hafa">
+      <br />
+      <app-drag-lists
+        [isExtra]="true"
+        [lyrics]="extraLyricService.extraLyricSig()"
+      ></app-drag-lists>
+    </mat-tab>
+  </mat-tab-group>
+</div>
 
 }

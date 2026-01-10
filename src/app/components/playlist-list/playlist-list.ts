@@ -1,19 +1,26 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, ViewChild,} from '@angular/core';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatSort, MatSortModule} from '@angular/material/sort';
-import {Router, RouterModule} from '@angular/router';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {PlaylistInterface} from '../../models/playlist.interface';
-import {PlaylistsfbService} from '../../services/playlists/playlistsfb.service';
-import {PlaylistsService} from '../../services/playlists/playlists.service';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  Input,
+  ViewChild,
+} from '@angular/core';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { Router, RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { PlaylistInterface } from '../../models/playlist.interface';
+import { PlaylistsfbService } from '../../services/playlists/playlistsfb.service';
+import { PlaylistsService } from '../../services/playlists/playlists.service';
 
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
-import {PlaylistCreateDialog} from '../../dialogs/playlist-create-dialog/playlist-create-dialog';
-import {DeletePlaylistDialog} from '../../dialogs/delete-playlist-dialog/delete-playlist-dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { PlaylistCreateDialog } from '../../dialogs/playlist-create-dialog/playlist-create-dialog';
+import { DeletePlaylistDialog } from '../../dialogs/delete-playlist-dialog/delete-playlist-dialog';
 
 @Component({
   selector: 'app-playlist-list',
@@ -42,20 +49,24 @@ export class PlaylistList {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator)
   paginator: MatPaginator = new MatPaginator();
+  @Input() isAdmin: boolean = false;
 
-  constructor(private cdr: ChangeDetectorRef) {
-  }
+  constructor(private cdr: ChangeDetectorRef) {}
 
   openDialog() {
-    this.dialog.open(PlaylistCreateDialog, {data: {isEdit: false, playlist: null}});
+    this.dialog.open(PlaylistCreateDialog, {
+      data: { isEdit: false, playlist: null },
+    });
   }
 
   deleteDialog(data: PlaylistInterface) {
-    this.dialog.open(DeletePlaylistDialog, {data});
+    this.dialog.open(DeletePlaylistDialog, { data });
   }
 
   editPlaylistDialog(data: PlaylistInterface) {
-    this.dialog.open(PlaylistCreateDialog, {data: {isEdit: true, playlist: data}});
+    this.dialog.open(PlaylistCreateDialog, {
+      data: { isEdit: true, playlist: data },
+    });
   }
 
   ngOnInit(): void {

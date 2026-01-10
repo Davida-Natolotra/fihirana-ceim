@@ -30,7 +30,9 @@
 
   <!-- Name Column -->
   <ng-container matColumnDef="name">
-    <th *matHeaderCellDef mat-header-cell style="font-weight: bold;">Playlist</th>
+    <th *matHeaderCellDef mat-header-cell style="font-weight: bold">
+      Playlist
+    </th>
     <td *matCellDef="let element" mat-cell>{{ element.name }}</td>
   </ng-container>
 
@@ -38,17 +40,22 @@
   <ng-container matColumnDef="action">
     <th *matHeaderCellDef mat-header-cell></th>
     <td *matCellDef="let element" mat-cell>
-      <button (click)="editPlaylistDialog(element)" aria-label="Editer" mat-icon-button>
+      <button
+        (click)="editPlaylistDialog(element)"
+        aria-label="Editer"
+        mat-icon-button
+      >
         <mat-icon>edit</mat-icon>
       </button>
+      @if(isAdmin) {
       <button
         (click)="deletePlaylist(element); $event.stopPropagation()"
         aria-label="Supprimer"
         color="warn"
         mat-icon-button
       >
-        <mat-icon>close</mat-icon>
-      </button>
+        <mat-icon>close</mat-icon></button
+      >}
     </td>
   </ng-container>
 
