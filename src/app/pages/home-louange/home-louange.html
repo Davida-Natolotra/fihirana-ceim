@@ -1,15 +1,15 @@
 <div class="container">
   <mat-tab-group mat-align-tabs="start" mat-stretch-tabs="false">
     <mat-tab label="Playlist">
-      <br />
-      <app-playlist-list [isAdmin]="true"></app-playlist-list>
+      <br/>
+      <app-playlist-list [isAdmin]="false"></app-playlist-list>
     </mat-tab>
     <mat-tab label="Fihirana CEIM">
-      <br />
+      <br/>
       <app-lists [pageSizeOptions]="[10,50,100]"></app-lists>
     </mat-tab>
     <mat-tab label="Hira hafa">
-      <br />
+      <br/>
       <app-extra-lists [pageSizeOptions]="[10,50,100]"></app-extra-lists>
     </mat-tab>
   </mat-tab-group>

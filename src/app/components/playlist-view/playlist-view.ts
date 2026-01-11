@@ -145,4 +145,15 @@ export class PlaylistView implements OnInit {
       this.router.navigate(['song', songId]);
     }
   }
+
+  // Method to truncate title for display - only on mobile screens
+  getTruncatedTitle(title: string): string {
+    // Check if it's a mobile screen (typically 768px or less)
+    const isMobile = window.innerWidth <= 768;
+
+    if (isMobile && title.length > 30) {
+      return title.substring(0, 30) + '...';
+    }
+    return title;
+  }
 }

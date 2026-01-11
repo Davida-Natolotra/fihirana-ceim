@@ -3,7 +3,7 @@
     {{ id !== 'new' ? 'Manova tononkira' : 'Hanampy tononkira' }}
   </h2>
 
-  <form [formGroup]="form" (ngSubmit)="save()" class="edit-lyric-form">
+  <form (ngSubmit)="save()" [formGroup]="form" class="edit-lyric-form">
     <!-- Main Song Fields -->
     <div class="form-row">
       <mat-form-field appearance="outline">
@@ -14,23 +14,23 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Laharan-kira</mat-label>
-        <input matInput formControlName="songNumber" type="number" required />
+        <input formControlName="songNumber" matInput required type="number"/>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Suffixe (optionnel)</mat-label>
-        <input matInput formControlName="suffix" type="text" />
+        <input formControlName="suffix" matInput type="text"/>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Clé</mat-label>
-        <input matInput formControlName="key" />
+        <input formControlName="key" matInput/>
       </mat-form-field>
     </div>
 
     <div class="form-row">
       <mat-form-field appearance="outline">
         <mat-label>Titre</mat-label>
-        <input matInput formControlName="title" required />
+        <input formControlName="title" matInput required/>
       </mat-form-field>
     </div>
 
@@ -39,20 +39,20 @@
       <h3 class="section-header">Sections</h3>
 
       <div
-        formArrayName="sections"
-        cdkDropList
         (cdkDropListDropped)="drop($any($event))"
+        cdkDropList
         class="sections-drop-list"
+        formArrayName="sections"
       >
         <div
-          *ngFor="let section of sections.controls; let i = index"
+          *ngFor="let section of (sections$ | async)?.controls; let i = index"
           [formGroupName]="i"
-          class="section-item"
           cdkDrag
           cdkDragPreview
+          class="section-item"
         >
-          <div class="example-handle" cdkDragHandle>
-            <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+          <div cdkDragHandle class="example-handle">
+            <svg fill="currentColor" viewBox="0 0 24 24" width="24px">
               <path
                 d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"
               ></path>
@@ -64,7 +64,8 @@
               <mat-label>Type de section</mat-label>
               <mat-select formControlName="type">
                 <mat-option *ngFor="let type of sectionTypes" [value]="type"
-                  >{{ type }}</mat-option
+                >{{ type }}
+                </mat-option
                 >
               </mat-select>
             </mat-form-field>
@@ -72,48 +73,50 @@
 
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Sous Titre</mat-label>
-            <input matInput formControlName="subtitle" />
+            <input formControlName="subtitle" matInput/>
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Lyrics (one line per row)</mat-label>
-            <textarea matInput rows="4" formControlName="lines"></textarea>
+            <textarea formControlName="lines" matInput rows="4"></textarea>
           </mat-form-field>
 
           <div class="text-right">
             <button
-              mat-stroked-button
-              color="warn"
               (click)="removeSection(i)"
+              [disabled]="(sections$ | async)?.length === 1"
+              color="warn"
+              mat-stroked-button
               type="button"
-              [disabled]="sections.length === 1"
             >
-              <mat-icon>delete</mat-icon> Enlever Section
+              <mat-icon>delete</mat-icon>
+              Enlever Section
             </button>
           </div>
         </div>
       </div>
 
       <button
-        mat-flat-button
-        color="primary"
-        type="button"
         (click)="addSection()"
+        color="primary"
+        mat-flat-button
+        type="button"
       >
-        <mat-icon>add</mat-icon> Ajouter Section
+        <mat-icon>add</mat-icon>
+        Ajouter Section
       </button>
     </div>
 
     <!-- Form Actions -->
     <div class="form-actions">
-      <button mat-stroked-button type="button" (click)="goBack()">
+      <button (click)="goBack()" mat-stroked-button type="button">
         Annuler
       </button>
       <button
-        mat-flat-button
-        color="primary"
-        type="submit"
         [disabled]="form.invalid"
+        color="primary"
+        mat-flat-button
+        type="submit"
       >
         Enregistrer
       </button>
