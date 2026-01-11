@@ -60,7 +60,7 @@ export class PlaylistView implements OnInit {
 
     this.playlistsfbService.getPlaylistLive(this.playlist_id!).subscribe({
       next: (playlist) => {
-        console.log('Loaded playlist:', playlist);
+       
         this.currentPlaylist.set(playlist);
         this.playlistsService.setCurrentPlaylist(playlist);
         this.isLoading.set(false);

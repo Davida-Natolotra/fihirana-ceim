@@ -38,63 +38,65 @@
     <div class="section-container">
       <h3 class="section-header">Sections</h3>
 
-      <div
-        (cdkDropListDropped)="drop($any($event))"
-        cdkDropList
-        class="sections-drop-list"
-        formArrayName="sections"
-      >
+      @if (sections$ | async; as sectionsArray) {
         <div
-          *ngFor="let section of (sections$ | async)?.controls; let i = index"
-          [formGroupName]="i"
-          cdkDrag
-          cdkDragPreview
-          class="section-item"
+          (cdkDropListDropped)="drop($any($event))"
+          cdkDropList
+          class="sections-drop-list"
+          formArrayName="sections"
         >
-          <div cdkDragHandle class="example-handle">
-            <svg fill="currentColor" viewBox="0 0 24 24" width="24px">
-              <path
-                d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"
-              ></path>
-              <path d="M0 0h24v24H0z" fill="none"></path>
-            </svg>
-          </div>
-          <div class="form-row">
-            <mat-form-field appearance="outline">
-              <mat-label>Type de section</mat-label>
-              <mat-select formControlName="type">
-                <mat-option *ngFor="let type of sectionTypes" [value]="type"
-                >{{ type }}
-                </mat-option
-                >
-              </mat-select>
+          <div
+            *ngFor="let section of sectionsArray.controls; let i = index"
+            [formGroupName]="i"
+            cdkDrag
+            cdkDragPreview
+            class="section-item"
+          >
+            <div cdkDragHandle class="example-handle">
+              <svg fill="currentColor" viewBox="0 0 24 24" width="24px">
+                <path
+                  d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"
+                ></path>
+                <path d="M0 0h24v24H0z" fill="none"></path>
+              </svg>
+            </div>
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>Type de section</mat-label>
+                <mat-select formControlName="type">
+                  <mat-option *ngFor="let type of sectionTypes" [value]="type"
+                  >{{ type }}
+                  </mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Sous Titre</mat-label>
+              <input formControlName="subtitle" matInput/>
             </mat-form-field>
-          </div>
 
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Sous Titre</mat-label>
-            <input formControlName="subtitle" matInput/>
-          </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Lyrics (one line per row)</mat-label>
+              <textarea formControlName="lines" matInput rows="4"></textarea>
+            </mat-form-field>
 
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Lyrics (one line per row)</mat-label>
-            <textarea formControlName="lines" matInput rows="4"></textarea>
-          </mat-form-field>
-
-          <div class="text-right">
-            <button
-              (click)="removeSection(i)"
-              [disabled]="(sections$ | async)?.length === 1"
-              color="warn"
-              mat-stroked-button
-              type="button"
-            >
-              <mat-icon>delete</mat-icon>
-              Enlever Section
-            </button>
+            <div class="text-right">
+              <button
+                (click)="removeSection(i)"
+                [disabled]="sectionsArray.length === 1"
+                color="warn"
+                mat-stroked-button
+                type="button"
+              >
+                <mat-icon>delete</mat-icon>
+                Enlever Section
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      }
 
       <button
         (click)="addSection()"

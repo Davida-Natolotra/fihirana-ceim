@@ -46,12 +46,7 @@ export class LyricEdit implements OnDestroy {
   extraLyricsFb = inject(ExtrafbService);
   sectionTypes = [
     'verse',
-    'chorus',
-    'bridge',
-    'intro',
-    'outro',
-    'pre-chorus',
-    'tag',
+    'chorus'
   ];
   // Signal only for local state tracking
   sectionsSignal: WritableSignal<any[]> = signal([]);
@@ -224,6 +219,10 @@ export class LyricEdit implements OnDestroy {
       language: '',
     });
 
+    // Clear the sections array first
+    const sectionsArray = this.form.get('sections') as FormArray;
+    sectionsArray.clear();
+
     // Add initial sections for new lyrics using existing sectionTypes
     const initialTypes = this.sectionTypes.slice(0, 2) as ('verse' | 'chorus')[];
     initialTypes.forEach((type) => {
@@ -234,6 +233,9 @@ export class LyricEdit implements OnDestroy {
         lines: []
       });
     });
+
+    // Update the BehaviorSubject
+    this.sectionsFormArray$.next(sectionsArray);
   }
 
   private setupSectionStream() {
