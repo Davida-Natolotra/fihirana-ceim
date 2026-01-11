@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, inject, Input, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, inject, Input, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -10,6 +10,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {ExtraLyricInterface} from '../../models/extra-lyric.interface';
 import {ExtralyricsService} from '../../services/extra/extralyrics.service';
 import {ExtrafbService} from '../../services/extra/extrafb.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'app-extra-lists',
@@ -21,12 +23,12 @@ import {ExtrafbService} from '../../services/extra/extrafb.service';
     MatSortModule,
     MatIconModule,
     RouterModule,
-    MatButtonModule,
+    MatButtonModule, MatProgressSpinnerModule, CommonModule
   ],
   templateUrl: './extra-lists.html',
   styleUrl: './extra-lists.css',
 })
-export class ExtraLists {
+export class ExtraLists implements OnInit, AfterViewInit {
   router = inject(Router);
   @Input() pageSizeOptions: number[] = [5, 10, 25, 100];
   displayedColumns: string[] = ['title'];
@@ -36,6 +38,7 @@ export class ExtraLists {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator)
   paginator: MatPaginator = new MatPaginator();
+  isLoading: boolean = true;
 
   constructor(private cdr: ChangeDetectorRef) {
   }
@@ -49,6 +52,9 @@ export class ExtraLists {
         this.extraLyricService.loadExtraLyric(lyrics);
         // Update the data source for the table
         this.dataSource.data = lyrics;
+        this.isLoading = false;
+        // Re-initialize sort and paginator after data loads
+        this.cdr.detectChanges();
       });
     // Initialize the data source with the lyrics signal
     this.dataSource.data = this.extraLyricService.extraLyricSig();

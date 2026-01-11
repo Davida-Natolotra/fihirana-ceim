@@ -2,8 +2,11 @@
   <mat-label>Filtre</mat-label>
   <input #input (keyup)="applyFilter($event)" matInput placeholder="Ex. ium"/>
 </mat-form-field>
+<div *ngIf="isLoading" class="loading-container">
+  <mat-spinner></mat-spinner>
+</div>
 
-<table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
+<table [dataSource]="dataSource" [style.display]="isLoading ? 'none' : ''" class="mat-elevation-z8" mat-table matSort>
   <!-- Name Column -->
   <ng-container matColumnDef="title">
     <th *matHeaderCellDef mat-header-cell>Titre</th>

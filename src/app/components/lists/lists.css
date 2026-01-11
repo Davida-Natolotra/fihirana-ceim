@@ -2,3 +2,11 @@
   background-color: #d4efe9;
   cursor: pointer;
 }
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  width: 100%;
+}

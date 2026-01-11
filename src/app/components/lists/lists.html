@@ -1,12 +1,19 @@
 <mat-form-field appearance="outline" class="w-full mb-4">
   <mat-label>Rechercher</mat-label>
-  <input #input (keyup)="applyFilter($event)" matInput placeholder="" />
+  <input #input (keyup)="applyFilter($event)" matInput placeholder=""/>
 </mat-form-field>
 
-@if(isLoading){
-<mat-spinner></mat-spinner>
-} @else {
-<table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
+<div *ngIf="isLoading" class="loading-container">
+  <mat-spinner></mat-spinner>
+</div>
+
+<table
+  [dataSource]="dataSource"
+  [style.display]="isLoading ? 'none' : ''"
+  class="mat-elevation-z8"
+  mat-table
+  matSort
+>
   <!-- Position Column -->
   <ng-container matColumnDef="songNumber">
     <th *matHeaderCellDef mat-header-cell mat-sort-header>Laharan-kira</th>
@@ -31,12 +38,12 @@
   <!-- Row shown when there is no matching data. -->
   <tr *matNoDataRow class="mat-row">
     <td class="mat-cell" colspan="4">
-      Aucun donnée trouvée pour cette filtre: "{{ input.value }}"
+      Aucun donnée trouvée pour cette filtre: "{{ input.value }}"
     </td>
   </tr>
 </table>
-}
+
 <mat-paginator
   [pageSizeOptions]="pageSizeOptions"
-  aria-label="Sélecteur de page"
+  [style.display]="isLoading ? 'none' : ''"
 ></mat-paginator>
