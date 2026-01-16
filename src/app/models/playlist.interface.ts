@@ -5,6 +5,7 @@ export interface PlaylistInterface {
   songs: Song[]; // Array of LyricInterface IDs
   createdAt?: Date;
   updatedAt?: Date;
+  isRemoved?: boolean;
 }
 
 export interface Song {

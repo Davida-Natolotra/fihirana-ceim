@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InstallPromptDialog } from './install-prompt-dialog';
+import { AdminPlaylistEdit } from './admin-playlist-edit';
 
-describe('InstallPromptDialog', () => {
-  let component: InstallPromptDialog;
-  let fixture: ComponentFixture<InstallPromptDialog>;
+describe('AdminPlaylistEdit', () => {
+  let component: AdminPlaylistEdit;
+  let fixture: ComponentFixture<AdminPlaylistEdit>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InstallPromptDialog]
+      imports: [AdminPlaylistEdit]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(InstallPromptDialog);
+    fixture = TestBed.createComponent(AdminPlaylistEdit);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

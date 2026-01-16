@@ -1,19 +1,26 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, Input, ViewChild,} from '@angular/core';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatSort, MatSortModule} from '@angular/material/sort';
-import {Router, RouterModule} from '@angular/router';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {PlaylistInterface} from '../../models/playlist.interface';
-import {PlaylistsfbService} from '../../services/playlists/playlistsfb.service';
-import {PlaylistsService} from '../../services/playlists/playlists.service';
-
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
-import {PlaylistCreateDialog} from '../../dialogs/playlist-create-dialog/playlist-create-dialog';
-import {DeletePlaylistDialog} from '../../dialogs/delete-playlist-dialog/delete-playlist-dialog';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  Input,
+  ViewChild,
+} from '@angular/core';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { PlaylistInterface } from '../../models/playlist.interface';
+import { PlaylistsfbService } from '../../services/playlists/playlistsfb.service';
+import { PlaylistsService } from '../../services/playlists/playlists.service';
+import { environment } from '../../../environments/environment.development';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { PlaylistCreateDialog } from '../../dialogs/playlist-create-dialog/playlist-create-dialog';
+import { DeletePlaylistDialog } from '../../dialogs/delete-playlist-dialog/delete-playlist-dialog';
 
 @Component({
   selector: 'app-playlist-list',
@@ -34,6 +41,7 @@ import {DeletePlaylistDialog} from '../../dialogs/delete-playlist-dialog/delete-
 })
 export class PlaylistList {
   router = inject(Router);
+  route = inject(ActivatedRoute);
   displayedColumns: string[] = ['name', 'action'];
   dataSource = new MatTableDataSource([] as PlaylistInterface[]);
   playlistService = inject(PlaylistsService);
@@ -44,22 +52,21 @@ export class PlaylistList {
   paginator: MatPaginator = new MatPaginator();
   @Input() isAdmin: boolean = false;
 
-  constructor(private cdr: ChangeDetectorRef) {
-  }
+  constructor(private cdr: ChangeDetectorRef) {}
 
   openDialog() {
     this.dialog.open(PlaylistCreateDialog, {
-      data: {isEdit: false, playlist: null},
+      data: { isEdit: false, playlist: null },
     });
   }
 
   deleteDialog(data: PlaylistInterface) {
-    this.dialog.open(DeletePlaylistDialog, {data});
+    this.dialog.open(DeletePlaylistDialog, { data });
   }
 
   editPlaylistDialog(data: PlaylistInterface) {
     this.dialog.open(PlaylistCreateDialog, {
-      data: {isEdit: true, playlist: data},
+      data: { isEdit: true, playlist: data },
     });
   }
 
@@ -72,10 +79,14 @@ export class PlaylistList {
         this.playlistService.setPlaylists(playlists as PlaylistInterface[]);
 
         // Update the data source for the table
-        this.dataSource.data = playlists;
+        this.dataSource.data = playlists.filter(
+          (p: PlaylistInterface) => !p.isRemoved
+        );
       });
     // Initialize the data source with the lyrics signal
-    this.dataSource.data = this.playlistService.playlistsSig();
+    this.dataSource.data = this.playlistService
+      .playlistsSig()
+      .filter((p: PlaylistInterface) => !p.isRemoved);
   }
 
   ngAfterViewInit() {
@@ -96,7 +107,16 @@ export class PlaylistList {
     this.playlistService.setIsEditingPlaylist(false);
     this.playlistService.setCurrentPlaylist(row);
     console.log('current playlist:', this.playlistService.currentPlaylist());
-    this.router.navigate(['/playlist', row.id]);
+    if (
+      this.route.snapshot.url.some((segment) =>
+        segment.path.includes(environment.adminLink)
+      )
+    ) {
+      this.router.navigate(['/playlist-edit', row.id]);
+      return;
+    } else {
+      this.router.navigate(['/playlist', row.id]);
+    }
   }
 
   deletePlaylist(element: PlaylistInterface) {

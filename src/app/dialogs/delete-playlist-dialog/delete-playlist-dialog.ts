@@ -21,9 +21,11 @@ export class DeletePlaylistDialog {
   playlistFbService = inject(PlaylistsfbService);
   dialogRef = inject(MatDialogRef<DeletePlaylistDialog>);
 
-  confirmDelete(id: string) {
-    this.playlistFbService.removePlaylist(id).subscribe(() => {
-      this.dialogRef.close();
-    });
+  confirmDelete(playlist: PlaylistInterface) {
+    this.playlistFbService
+      .updatePlaylist(playlist.id, { ...playlist, isRemoved: true })
+      .subscribe(() => {
+        this.dialogRef.close();
+      });
   }
 }

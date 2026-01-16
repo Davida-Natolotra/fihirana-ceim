@@ -1,0 +1,15 @@
+<button
+  (click)="editKeyDialog()"
+  aria-label="Edit song"
+  class="edit-fab"
+  mat-fab
+>
+  <mat-icon>piano</mat-icon>
+</button>
+
+<app-lyric
+  [extra]="extra"
+  [louange]="true"
+  [lyric]="currentSong()"
+></app-lyric>
+

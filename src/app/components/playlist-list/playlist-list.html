@@ -8,15 +8,18 @@
       placeholder="Ex. ium"
     />
   </mat-form-field>
-  <button
-    (click)="openDialog()"
-    aria-label="Ajouter une playlist"
-    color="primary"
-    mat-flat-button
-  >
-    <mat-icon>add</mat-icon>
-    Ajouter
-  </button>
+  @if (isAdmin) {
+    <button
+      (click)="openDialog()"
+      aria-label="Ajouter une playlist"
+      color="primary"
+      mat-flat-button
+    >
+      <mat-icon>add</mat-icon>
+      Ajouter
+    </button
+    >
+  }
 </div>
 
 <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
@@ -40,22 +43,25 @@
   <ng-container matColumnDef="action">
     <th *matHeaderCellDef mat-header-cell></th>
     <td *matCellDef="let element" mat-cell>
-      <button
-        (click)="editPlaylistDialog(element)"
-        aria-label="Editer"
-        mat-icon-button
-      >
-        <mat-icon>edit</mat-icon>
-      </button>
-      @if(isAdmin) {
-      <button
-        (click)="deletePlaylist(element); $event.stopPropagation()"
-        aria-label="Supprimer"
-        color="warn"
-        mat-icon-button
-      >
-        <mat-icon>close</mat-icon></button
-      >}
+      @if (isAdmin) {
+        <button
+          (click)="editPlaylistDialog(element)"
+          aria-label="Editer"
+          mat-icon-button
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+
+        <button
+          (click)="deletePlaylist(element); $event.stopPropagation()"
+          aria-label="Supprimer"
+          color="warn"
+          mat-icon-button
+        >
+          <mat-icon>close</mat-icon>
+        </button
+        >
+      }
     </td>
   </ng-container>
 

@@ -10,7 +10,7 @@ import {
   setDoc,
 } from '@angular/fire/firestore';
 import { LyricInterface } from '../../models/lyric.interface';
-import { from, Observable, Observer } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { Notification } from '../notification/notification.service';
 
 @Injectable({

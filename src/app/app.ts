@@ -4,7 +4,7 @@ import { Appbar } from './components/appbar/appbar';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { MatDialog } from '@angular/material/dialog';
 import { filter } from 'rxjs';
-import { InstallPromptDialog } from './components/install-prompt-dialog/install-prompt-dialog';
+import { InstallPromptDialog } from './dialogs/install-prompt-dialog/install-prompt-dialog';
 import { UpdateAvailableDialog } from './dialogs/update-available-dialog/update-available-dialog';
 
 @Component({
