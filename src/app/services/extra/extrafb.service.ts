@@ -35,7 +35,10 @@ export class ExtrafbService {
   }
 
   addExtraLyric(lyric: ExtraLyricInterface): Observable<string> {
-    const promise = addDoc(this.LyricsCollection, lyric)
+    const promise = addDoc(this.LyricsCollection, {
+      ...lyric,
+      createdAt: new Date(),
+    })
       .then((docRef) => {
         this.notifications.showSuccess('Lyric added successfully');
         return docRef.id;
@@ -65,7 +68,7 @@ export class ExtrafbService {
   updateLyric(id: string, lyric: ExtraLyricInterface): Observable<void> {
     const lyricDoc = doc(this.firestore, 'extra_lyrics', id);
     return from(
-      setDoc(lyricDoc, lyric, { merge: true })
+      setDoc(lyricDoc, { ...lyric, updatedAt: new Date() }, { merge: true })
         .then(() => {
           this.notifications.showSuccess('Lyric updated successfully');
         })

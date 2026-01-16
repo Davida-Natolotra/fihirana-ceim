@@ -33,7 +33,10 @@ export class Lyricsfb {
   }
 
   addLyric(lyric: LyricInterface): Observable<string> {
-    const promise = addDoc(this.LyricsCollection, lyric)
+    const promise = addDoc(this.LyricsCollection, {
+      ...lyric,
+      createdAt: new Date(),
+    })
       .then((docRef) => {
         this.notifications.showSuccess('Lyric added successfully');
         return docRef.id;
@@ -63,7 +66,7 @@ export class Lyricsfb {
   updateLyric(id: string, lyric: LyricInterface): Observable<void> {
     const lyricDoc = doc(this.firestore, 'lyrics', id);
     return from(
-      setDoc(lyricDoc, lyric, { merge: true })
+      setDoc(lyricDoc, { ...lyric, updatedAt: new Date() }, { merge: true })
         .then(() => {
           this.notifications.showSuccess('Lyric updated successfully');
         })
