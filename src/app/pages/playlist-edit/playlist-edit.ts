@@ -46,7 +46,7 @@ export class PlaylistEdit implements OnInit {
     playlistName: [this.playlistNameValue || '', Validators.required],
   });
   secondFormGroup = this._formBuilder.group({
-    songList: ['', Validators.required],
+    songs: ['', Validators.required],
   });
   isEditable = false;
 
@@ -78,8 +78,8 @@ export class PlaylistEdit implements OnInit {
               .map((playlist) =>
                 playlist.id === this.playlistId
                   ? { ...playlist, name: updatedName }
-                  : playlist
-              )
+                  : playlist,
+              ),
           );
           this.isEditable = false;
         });

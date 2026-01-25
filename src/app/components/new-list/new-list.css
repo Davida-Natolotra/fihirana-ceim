@@ -1,0 +1,25 @@
+.viewport {
+  /* If each item is 50px, 10 items = 500px */
+  height: 500px;
+  width: 100%;
+  border: 1px solid rgba(0, 113, 96, 0);
+
+  /* The Gradient Mask */
+  /* Top 50% (first 5 items) is fully opaque (black) */
+  /* Bottom 50% (last 5 items) fades to transparent */
+  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  margin: 0;
+}
+
+.list-item {
+  height: 50px; /* Must match itemSize in HTML */
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.search-button {
+  margin-bottom: 1rem;
+}

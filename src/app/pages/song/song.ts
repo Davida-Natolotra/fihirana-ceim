@@ -1,14 +1,13 @@
-import {Component, inject} from '@angular/core';
-import {Router} from '@angular/router';
-import {PlaylistsService} from '../../services/playlists/playlists.service';
-import {SongRead} from '../../components/song-read/song-read';
-import {MatAnchor, MatButtonModule} from '@angular/material/button';
-import {SongService} from '../../services/song/song.service';
-import {MatIcon} from '@angular/material/icon';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { PlaylistsService } from '../../services/playlists/playlists.service';
+import { SongRead } from '../../components/song-read/song-read';
+import { MatAnchor, MatButtonModule } from '@angular/material/button';
+import { SongService } from '../../services/song/song.service';
 
 @Component({
   selector: 'app-song',
-  imports: [SongRead, MatButtonModule, MatAnchor, MatIcon],
+  imports: [SongRead, MatButtonModule, MatAnchor],
   templateUrl: './song.html',
   styleUrl: './song.css',
 })
