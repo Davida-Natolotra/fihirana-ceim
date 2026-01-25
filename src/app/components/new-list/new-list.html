@@ -42,6 +42,8 @@
     placeholder=""
     [(ngModel)]="searchValue"
     type="number"
+    inputmode="numeric"
+    pattern="[0-9]*"
   />
   <button matSuffix matIconButton aria-label="Clear" (click)="clearFilter()">
     <mat-icon>close</mat-icon>
