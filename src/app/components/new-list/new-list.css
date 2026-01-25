@@ -1,8 +1,19 @@
+.virtual-scroll-container {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
 .viewport {
-  /* If each item is 50px, 10 items = 500px */
-  height: 500px;
+  /* Dynamic height based on viewport, leaving space for other elements */
+  height: calc(100vh - 200px);
   width: 100%;
   border: 1px solid rgba(0, 113, 96, 0);
+
+  /* Restrict to vertical scrolling only */
+  overflow-x: hidden;
+  overflow-y: auto;
 
   /* The Gradient Mask */
   /* Top 50% (first 5 items) is fully opaque (black) */
@@ -10,6 +21,9 @@
   -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
   mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
   margin: 0;
+
+  /* Ensure proper scrolling behavior */
+  scroll-behavior: smooth;
 }
 
 .list-item {
@@ -18,8 +32,38 @@
   align-items: center;
   padding: 0 20px;
   border-bottom: 1px solid #eee;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.song-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 
 .search-button {
   margin-bottom: 1rem;
+}
+
+/* Media queries for different screen sizes */
+@media (max-width: 768px) {
+  .viewport {
+    height: calc(100vh - 180px);
+  }
+
+  .list-item {
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .viewport {
+    height: calc(100vh - 160px);
+  }
+
+  .list-item {
+    padding: 0 10px;
+  }
 }

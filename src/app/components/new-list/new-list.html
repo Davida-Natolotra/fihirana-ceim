@@ -1,84 +1,89 @@
 <div class="search-button">
-  <button mat-raised-button [matMenuTriggerFor]="menu">
-    <mat-icon>search</mat-icon> Hikaroka hira
+  <button [matMenuTriggerFor]="menu" mat-raised-button>
+    <mat-icon>search</mat-icon>
+    Hikaroka hira
   </button>
-  <button mat-button (click)="clearMenuFilter()">
+  <button (click)="clearMenuFilter()" mat-button>
     <mat-icon>close</mat-icon>
   </button>
 </div>
 <mat-menu #menu="matMenu">
-  <button mat-menu-item (click)="setSearchMenu('songNumber')">
+  <button (click)="setSearchMenu('songNumber')" mat-menu-item>
     Laharan-kira
   </button>
-  <button mat-menu-item (click)="setSearchMenu('songTitle')">
+  <button (click)="setSearchMenu('songTitle')" mat-menu-item>
     Lohatenin-kira
   </button>
-  <button mat-menu-item (click)="setSearchMenu('songLyric')">Tonon-kira</button>
+  <button (click)="setSearchMenu('songLyric')" mat-menu-item>Tonon-kira</button>
 </mat-menu>
-@if(searchMenu()!= ""){
-<p>Misy hira {{searchResult()}} isa hita</p>
-} @if (searchMenu()=="songTitle") {
-<mat-form-field appearance="outline" class="w-full mb-4">
-  <mat-label>Mitady lohateny</mat-label>
-  <input
-    #input
-    (keyup)="applyFilter($event)"
-    matInput
-    placeholder=""
-    [(ngModel)]="searchValue"
-    type="text"
-  />
-  <button matSuffix matIconButton aria-label="Clear" (click)="clearFilter()">
-    <mat-icon>close</mat-icon>
-  </button>
-</mat-form-field>
-} @else if (searchMenu()=="songNumber") {
-<mat-form-field appearance="outline" class="w-full mb-4">
-  <mat-label>Mitady laharan-kira</mat-label>
-  <input
-    #input
-    (keyup)="applyFilterNumber($event)"
-    matInput
-    placeholder=""
-    [(ngModel)]="searchValue"
-    type="number"
-    inputmode="numeric"
-    pattern="[0-9]*"
-  />
-  <button matSuffix matIconButton aria-label="Clear" (click)="clearFilter()">
-    <mat-icon>close</mat-icon>
-  </button>
-</mat-form-field>
-} @else if (searchMenu()=="songLyric") {
-<mat-form-field appearance="outline" class="w-full mb-4">
-  <mat-label>Mitady tonon-kira</mat-label>
-  <input
-    #input
-    (keyup)="applyFilterLyric($event)"
-    matInput
-    placeholder=""
-    [(ngModel)]="searchValue"
-    type="text"
-  />
-  <button matSuffix matIconButton aria-label="Clear" (click)="clearFilter()">
-    <mat-icon>close</mat-icon>
-  </button>
-</mat-form-field>
-} @if(isLoading) {
-<div class="loading-container">
-  <mat-spinner></mat-spinner>
-</div>
+@if (searchMenu() != "") {
+  <p>Misy hira {{ searchResult() }} isa hita</p>
+}
+@if (searchMenu() == "songTitle") {
+  <mat-form-field appearance="outline" class="w-full mb-4">
+    <mat-label>Mitady lohateny</mat-label>
+    <input
+      #input
+      (keyup)="applyFilter($event)"
+      [(ngModel)]="searchValue"
+      matInput
+      placeholder=""
+      type="text"
+    />
+    <button (click)="clearFilter()" aria-label="Clear" matIconButton matSuffix>
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+} @else if (searchMenu() == "songNumber") {
+  <mat-form-field appearance="outline" class="w-full mb-4">
+    <mat-label>Mitady laharan-kira</mat-label>
+    <input
+      #input
+      (keyup)="applyFilterNumber($event)"
+      [(ngModel)]="searchValue"
+      inputmode="numeric"
+      matInput
+      pattern="[0-9]*"
+      placeholder=""
+      type="number"
+    />
+    <button (click)="clearFilter()" aria-label="Clear" matIconButton matSuffix>
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+} @else if (searchMenu() == "songLyric") {
+  <mat-form-field appearance="outline" class="w-full mb-4">
+    <mat-label>Mitady tonon-kira</mat-label>
+    <input
+      #input
+      (keyup)="applyFilterLyric($event)"
+      [(ngModel)]="searchValue"
+      matInput
+      placeholder=""
+      type="text"
+    />
+    <button (click)="clearFilter()" aria-label="Clear" matIconButton matSuffix>
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+}
+@if (isLoading) {
+  <div class="loading-container">
+    <mat-spinner></mat-spinner>
+  </div>
 } @else {
 
-<cdk-virtual-scroll-viewport itemSize="50" class="viewport">
-  <mat-nav-list *cdkVirtualFor="let lyric of dataSource" class="list-item">
-    <mat-list-item (click)="openDetail(lyric)">
-      <mat-icon matListItemIcon>lyrics</mat-icon>
-      <span
-        >{{lyric.songNumber}} {{lyric?.suffix}} {{lyric.title}}</span
-      ></mat-list-item
-    >
-  </mat-nav-list>
-</cdk-virtual-scroll-viewport>
+  <div class="virtual-scroll-container">
+    <cdk-virtual-scroll-viewport class="viewport" itemSize="50">
+      <mat-nav-list *cdkVirtualFor="let lyric of dataSource" class="list-item">
+        <mat-list-item (click)="openDetail(lyric)">
+          <mat-icon matListItemIcon>lyrics</mat-icon>
+          <span class="song-text"
+          >{{ lyric.songNumber }} {{ lyric?.suffix }} {{ lyric.title }}</span
+          ></mat-list-item
+        >
+      </mat-nav-list>
+    </cdk-virtual-scroll-viewport>
+  </div>
 
 }
