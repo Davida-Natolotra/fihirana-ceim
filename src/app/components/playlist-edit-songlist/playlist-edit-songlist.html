@@ -48,7 +48,9 @@
   }
 </mat-action-list>
 <br />
-<button (click)="goBackAdmin()" mat-flat-button>Retour</button>
+<button (click)="goBackAdmin()" mat-flat-button>
+  <mat-icon>arrow_back</mat-icon> Retour
+</button>
 @if (isEditing) {
 <div class="tab-container">
   @if (isLoading()) {

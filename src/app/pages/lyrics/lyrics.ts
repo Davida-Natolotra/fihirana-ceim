@@ -9,10 +9,11 @@ import { ExtrafbService } from '../../services/extra/extrafb.service';
 import { ExtralyricsService } from '../../services/extra/extralyrics.service';
 import { ExtraLyricInterface } from '../../models/extra-lyric.interface';
 import { LouangeService } from '../../services/louange/louange.service';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-lyrics',
-  imports: [Lyric, MatButton],
+  imports: [Lyric, MatButton, MatIcon],
   templateUrl: './lyrics.html',
   styleUrl: './lyrics.css',
 })
@@ -28,7 +29,7 @@ export class Lyrics implements OnInit {
   extraLyricService = inject(ExtralyricsService);
   dataSource = [] as LyricInterface[] | ExtraLyricInterface[];
   extra = this.route.snapshot.url.some((segment) =>
-    segment.path.includes('extralyric')
+    segment.path.includes('extralyric'),
   );
 
   ngOnInit(): void {
@@ -57,7 +58,7 @@ export class Lyrics implements OnInit {
       this.LyricsFirebase.getLyric(this.id!).subscribe(
         (lyric: LyricInterface) => {
           this.item = lyric;
-        }
+        },
       );
     }
   }

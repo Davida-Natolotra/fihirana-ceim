@@ -4,10 +4,11 @@ import { PlaylistsService } from '../../services/playlists/playlists.service';
 import { SongRead } from '../../components/song-read/song-read';
 import { MatAnchor, MatButtonModule } from '@angular/material/button';
 import { SongService } from '../../services/song/song.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-song',
-  imports: [SongRead, MatButtonModule, MatAnchor],
+  imports: [SongRead, MatButtonModule, MatAnchor, MatIconModule],
   templateUrl: './song.html',
   styleUrl: './song.css',
 })
