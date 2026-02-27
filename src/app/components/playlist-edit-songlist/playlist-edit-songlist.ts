@@ -179,8 +179,8 @@ export class PlaylistEditSonglist implements OnInit {
     // Check if it's a mobile screen (typically 768px or less)
     const isMobile = window.innerWidth <= 768;
 
-    if (isMobile && title.length > 30) {
-      return title.substring(0, 30) + '...';
+    if (isMobile && title.length > 20) {
+      return title.substring(0, 20) + '...';
     }
     return title;
   }

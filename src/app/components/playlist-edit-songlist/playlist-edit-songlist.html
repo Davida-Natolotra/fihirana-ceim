@@ -10,7 +10,7 @@
   </mat-slide-toggle>
   }
 </div>
-<mat-action-list
+@if(isEditing) {<mat-action-list
   (cdkDropListDropped)="drop($event)"
   [cdkDropListData]="playlistsService.currentPlaylist()!.songs"
   cdkDropList
@@ -21,7 +21,6 @@
   <mat-list-item cdkDrag class="example-box" mat-list-item>
     <div class="song-container">
       <div class="song-left">
-        @if (isEditing) {
         <button
           (click)="removeSong(song.id)"
           aria-label="Close"
@@ -29,7 +28,7 @@
         >
           <mat-icon>close</mat-icon>
         </button>
-        }
+
         <span class="song-title">{{ getTruncatedTitle(song.title) }}</span>
       </div>
       <div class="song-right">
@@ -47,6 +46,29 @@
 
   }
 </mat-action-list>
+} @else {<mat-action-list class="example-list">
+  @for (song of playlistsService.currentPlaylist()!.songs; track song.id) {
+
+  <mat-list-item mat-list-item>
+    <div class="song-container">
+      <div class="song-left">
+        <span class="song-title">{{ getTruncatedTitle(song.title) }}</span>
+      </div>
+      <div class="song-right">
+        <span class="song-key">{{ song.key }}</span>
+        <button
+          (click)="openSongRead(song.id,song.isExtra)"
+          aria-label="Play"
+          mat-icon-button
+        >
+          <mat-icon>play_arrow</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-list-item>
+
+  } </mat-action-list
+>}
 <br />
 <button (click)="goBackAdmin()" mat-flat-button>
   <mat-icon>arrow_back</mat-icon> Retour

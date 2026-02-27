@@ -1,15 +1,10 @@
 <div class="header-container">
   <h3>{{ playlistsService.currentPlaylist()?.name }}</h3>
 </div>
-<mat-action-list
-  (cdkDropListDropped)="drop($event)"
-  [cdkDropListData]="playlistsService.currentPlaylist()!.songs"
-  cdkDropList
-  class="example-list"
->
+<mat-action-list class="example-list">
   @for (song of playlistsService.currentPlaylist()!.songs; track song.id) {
 
-  <mat-list-item cdkDrag class="example-box" mat-list-item>
+  <mat-list-item class="example-box" mat-list-item>
     <div class="song-container">
       <div class="song-left">
         @if (isEditing) {
