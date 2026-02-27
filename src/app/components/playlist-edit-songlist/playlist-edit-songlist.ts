@@ -1,6 +1,7 @@
 import {
   Component,
   inject,
+  Input,
   OnInit,
   signal,
   WritableSignal,
@@ -68,6 +69,7 @@ export class PlaylistEditSonglist implements OnInit {
   playlist_id = this.route.snapshot.paramMap.get('id');
   private router = inject(Router);
   songService = inject(SongService);
+  @Input() isAdmin: boolean = false;
   ngOnInit() {
     this.isLoading.set(true);
     this.error.set(null);
@@ -91,7 +93,7 @@ export class PlaylistEditSonglist implements OnInit {
       moveItemInArray(
         event.container.data,
         event.previousIndex,
-        event.currentIndex
+        event.currentIndex,
       );
       this.UpdateSongOrder(event.container.data);
     } else {
@@ -99,7 +101,7 @@ export class PlaylistEditSonglist implements OnInit {
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
-        event.currentIndex
+        event.currentIndex,
       );
       this.UpdateSongOrder(event.container.data);
     }
@@ -148,13 +150,17 @@ export class PlaylistEditSonglist implements OnInit {
   }
 
   goBackAdmin() {
-    this.router.navigate([environment.adminLink]);
+    if (this.isAdmin) {
+      this.router.navigate([environment.adminLink]);
+    } else {
+      this.router.navigate(['louange']);
+    }
   }
 
   openSongRead(songId: string, isExtra: boolean) {
     if (
       this.route.snapshot.url.some((segment) =>
-        segment.path.includes('playlist-edit')
+        segment.path.includes('playlist-edit'),
       )
     ) {
       this.songService.setSongAdmin(true);

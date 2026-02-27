@@ -37,7 +37,8 @@ export const routes: Routes = [
   },
   {
     path: 'playlist/:id',
-    component: Playlist,
+    // component: Playlist,
+    component: AdminPlaylistEdit,
   },
   {
     path: 'playlist-edit/:id',
