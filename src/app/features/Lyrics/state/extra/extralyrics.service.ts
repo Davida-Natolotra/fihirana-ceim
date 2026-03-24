@@ -1,8 +1,6 @@
-import { Injectable, signal } from '@angular/core';
-import { ExtraLyricInterface } from '../../models/extra-lyric.interface';
-import { doc, docData } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { LyricInterface } from '../../models/lyric.interface';
+import {Injectable, signal} from '@angular/core';
+import {ExtraLyricInterface} from '../../models/extra-lyric.interface';
+
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +25,7 @@ export class ExtralyricsService {
       this.extraLyricSig.set([...currentLyrics]);
     }
   }
+
   deleteExtraLyric(id: string) {
     const currentLyrics = this.extraLyricSig();
     const updatedLyrics = currentLyrics.filter((l) => l.id !== id);
