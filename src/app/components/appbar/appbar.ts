@@ -15,7 +15,7 @@ import {Notification} from '../../services/notification/notification.service';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {User} from '@angular/fire/auth';
-import {PlaylistsService} from '../../services/playlists/playlists.service';
+import {PlaylistsService} from '../../features/Playlist/state/playlists/playlists.service';
 
 @Component({
   selector: 'app-appbar',

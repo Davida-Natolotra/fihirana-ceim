@@ -1,16 +1,14 @@
-import { Routes } from '@angular/router';
-import { Home } from './pages/home/home';
-import { Lyrics } from './pages/lyrics/lyrics';
-import { AdminHome } from './pages/admin-home/admin-home';
-import { AdminLogin } from './pages/admin-login/admin-login';
-import { AdminEdit } from './pages/admin-edit/admin-edit';
-import { LoginComponent } from './components/login/login';
-import { environment } from '../environments/environment.prod';
-import { HomeLouange } from './pages/home-louange/home-louange';
-import { Playlist } from './pages/playlist/playlist';
-import { SongRead } from './components/song-read/song-read';
-import { AdminPlaylistEdit } from './pages/admin-playlist-edit/admin-playlist-edit';
-import { Song } from './pages/song/song';
+import {Routes} from '@angular/router';
+import {Home} from './pages/public/home/home';
+import {Lyrics} from './pages/public/lyrics/lyrics';
+import {AdminHome} from './pages/admin/admin-home/admin-home';
+import {AdminLogin} from './pages/admin/admin-login/admin-login';
+import {AdminEdit} from './pages/admin/admin-edit/admin-edit';
+import {LoginComponent} from './components/login/login';
+import {environment} from '../environments/environment.prod';
+import {HomeLouange} from './pages/louange/home-louange/home-louange';
+import {AdminPlaylistEdit} from './pages/admin/admin-playlist-edit/admin-playlist-edit';
+import {Song} from './pages/louange/song/song';
 
 export const routes: Routes = [
   {
@@ -26,9 +24,9 @@ export const routes: Routes = [
     component: LoginComponent,
     // canActivate: [publicGuard],
   },
-  { path: 'lyric/:id', component: Lyrics },
-  { path: 'extralyric/:id', component: Lyrics },
-  { path: 'login', component: AdminLogin },
+  {path: 'lyric/:id', component: Lyrics},
+  {path: 'extralyric/:id', component: Lyrics},
+  {path: 'login', component: AdminLogin},
   {
     path: environment.adminLink, // Admin link for public access
     component: AdminHome,
