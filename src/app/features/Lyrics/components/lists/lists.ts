@@ -28,6 +28,7 @@ import {CommonModule} from '@angular/common';
   ],
   templateUrl: './lists.html',
   styleUrl: './lists.css',
+  standalone: true
 })
 export class Lists implements OnInit, AfterViewInit {
   router = inject(Router);

@@ -11,6 +11,7 @@ import {LyricInterface} from '../../../Lyrics/models/lyric.interface';
 import {ExtraLyricInterface} from '../../../Lyrics/models/extra-lyric.interface';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {EditKeyDialog} from '../edit-key.dialog/edit-key.dialog';
+import {EditStructureDialog} from '../edit-structure.dialog/edit-structure.dialog';
 import {SongfbApi} from '../../api/songfb/songfb.api';
 
 @Component({
@@ -46,6 +47,12 @@ export class SongRead implements OnInit {
 
   editKeyDialog() {
     this.dialog.open(EditKeyDialog, {
+      data: this.currentSong() as LyricInterface | ExtraLyricInterface,
+    });
+  }
+
+  editStructureDialog() {
+    this.dialog.open(EditStructureDialog, {
       data: this.currentSong() as LyricInterface | ExtraLyricInterface,
     });
   }

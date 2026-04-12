@@ -1,11 +1,21 @@
-<button
-  (click)="editKeyDialog()"
-  aria-label="Edit song"
-  class="edit-fab"
-  mat-fab
->
-  <mat-icon>piano</mat-icon>
-</button>
+<div class="edit-fab">
+  <button
+    (click)="editKeyDialog()"
+    aria-label="Edit song"
+    mat-fab
+  >
+    <mat-icon>piano</mat-icon>
+  </button>
+
+  <button
+    (click)="editStructureDialog()"
+    aria-label="Edit structure"
+    mat-fab
+  >
+    <mat-icon>density_small</mat-icon>
+  </button>
+</div>
+
 
 <app-lyric
   [extra]="extra"

@@ -10,6 +10,7 @@ import {PlaylistView} from '../../../features/Playlist/components/playlist-view/
   imports: [PlaylistEditSonglist, PlaylistView],
   templateUrl: './playlist.html',
   styleUrl: './playlist.css',
+  standalone: true
 })
 export class Playlist {
   private playlistService = inject(PlaylistsService);

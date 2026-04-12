@@ -1,10 +1,12 @@
+import {Timestamp} from '@angular/fire/firestore';
+
 export interface PlaylistInterface {
   id: string; // Firestore document ID
   name: string;
   description?: string;
   songs: Song[]; // Array of LyricInterface IDs
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Timestamp;
+  updatedAt?: Timestamp;
   isRemoved?: boolean;
 }
 

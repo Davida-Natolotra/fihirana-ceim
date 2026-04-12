@@ -1,17 +1,8 @@
-import { inject, Injectable } from '@angular/core';
-import {
-  addDoc,
-  collection,
-  collectionData,
-  deleteDoc,
-  doc,
-  docData,
-  Firestore,
-  setDoc,
-} from '@angular/fire/firestore';
-import { combineLatest, from, map, Observable, of, switchMap } from 'rxjs';
-import { Notification } from '../../../../services/notification/notification.service';
-import { PlaylistInterface, Song } from '../../models/playlist.interface';
+import {inject, Injectable} from '@angular/core';
+import {addDoc, collection, collectionData, doc, docData, Firestore, setDoc,} from '@angular/fire/firestore';
+import {combineLatest, from, map, Observable, of, switchMap} from 'rxjs';
+import {Notification} from '../../../../services/notification/notification.service';
+import {PlaylistInterface, Song} from '../../models/playlist.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -50,29 +41,14 @@ export class PlaylistsfbService {
     return from(promise);
   }
 
-  removePlaylist(id: string): Observable<void> {
-    const playlistDoc = doc(this.firestore, 'playlists', id);
-    return from(
-      deleteDoc(playlistDoc)
-        .then(() => {
-          this.notifications.showSuccess('Playlist deleted successfully');
-        })
-        .catch((error) => {
-          this.notifications.showError(
-            `Error deleting playlist: ${error.message}`
-          );
-          throw error; // Re-throw the error to
-        })
-    );
-  }
 
   updatePlaylist(id: string, playlist: PlaylistInterface): Observable<void> {
     const playlistDoc = doc(this.firestore, 'playlists', id);
     return from(
       setDoc(
         playlistDoc,
-        { ...playlist, updatedAt: new Date() },
-        { merge: true }
+        {...playlist, updatedAt: new Date()},
+        {merge: true}
       )
         .then(() => {
           this.notifications.showSuccess('Playlist updated successfully');
@@ -90,7 +66,7 @@ export class PlaylistsfbService {
     const playlistDocRef = doc(this.firestore, `playlists/${playlistId}`);
 
     // 1. Listen to the specific Playlist document
-    return docData(playlistDocRef, { idField: 'id' }).pipe(
+    return docData(playlistDocRef, {idField: 'id'}).pipe(
       switchMap((playlist: any) => {
         if (!playlist || !playlist.songs || playlist.songs.length === 0) {
           return of(playlist || null);

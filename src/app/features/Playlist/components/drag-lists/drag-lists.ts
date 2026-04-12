@@ -33,6 +33,7 @@ import { Song } from '../../models/playlist.interface';
   ],
   templateUrl: './drag-lists.html',
   styleUrl: './drag-lists.css',
+  standalone: true
 })
 export class DragLists implements AfterViewInit {
   @Input() lyrics: LyricInterface[] | ExtraLyricInterface[] = [];

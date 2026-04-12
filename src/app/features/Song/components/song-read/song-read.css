@@ -2,11 +2,18 @@
   position: fixed;
   right: 24px;
   top: 50%;
+  transform: translateY(-50%);
   z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.edit-fab button {
   opacity: 0.5;
   transition: opacity 0.3s ease-in-out;
 }
 
-.edit-fab:hover {
+.edit-fab button:hover {
   opacity: 1;
 }

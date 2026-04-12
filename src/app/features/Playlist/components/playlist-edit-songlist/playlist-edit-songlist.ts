@@ -1,37 +1,28 @@
-import {
-  Component,
-  inject,
-  Input,
-  OnInit,
-  signal,
-  WritableSignal,
-} from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PlaylistsService } from '../../state/playlists/playlists.service';
-import { PlaylistInterface, Song } from '../../models/playlist.interface';
-import { PlaylistsfbService } from '../../api/playlistfb/playlistsfb.service';
-import { MatListModule } from '@angular/material/list';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import {
-  CdkDragDrop,
-  DragDropModule,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table';
-import { LyricsService } from '../../../Lyrics/state/lyrics/lyrics.service';
-import { MatSortModule } from '@angular/material/sort';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { DragLists } from '../drag-lists/drag-lists';
-import { ExtralyricsService } from '../../../Lyrics/state/extra/extralyrics.service';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { environment } from '../../../../../environments/environment.development';
-import { SongService } from '../../../Song/state/song/song.service';
+import {Component, inject, Input, OnInit, signal, WritableSignal,} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {PlaylistsService} from '../../state/playlists/playlists.service';
+import {PlaylistInterface, Song} from '../../models/playlist.interface';
+import {PlaylistsfbService} from '../../api/playlistfb/playlistsfb.service';
+import {MatListModule} from '@angular/material/list';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem,} from '@angular/cdk/drag-drop';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatTableModule} from '@angular/material/table';
+import {LyricsService} from '../../../Lyrics/state/lyrics/lyrics.service';
+import {MatSortModule} from '@angular/material/sort';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {DragLists} from '../drag-lists/drag-lists';
+import {ExtralyricsService} from '../../../Lyrics/state/extra/extralyrics.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {environment} from '../../../../../environments/environment.development';
+import {SongService} from '../../../Song/state/song/song.service';
+import {EditSonglistService} from '../../services/edit-songlist.service';
+import {DatePipe} from '@angular/common';
+import {Timestamp} from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-playlist-edit-songlist',
@@ -49,14 +40,17 @@ import { SongService } from '../../../Song/state/song/song.service';
     MatSortModule,
     DragLists,
     MatProgressSpinnerModule,
+    DatePipe,
   ],
   templateUrl: './playlist-edit-songlist.html',
   styleUrl: './playlist-edit-songlist.css',
+  standalone: true
 })
 export class PlaylistEditSonglist implements OnInit {
   playlistsService = inject(PlaylistsService);
   lyricService = inject(LyricsService);
   extraLyricService = inject(ExtralyricsService);
+  editSonglistService = inject(EditSonglistService)
   // Signal to track loading and playlist state
   isLoading: WritableSignal<boolean> = signal(true);
   currentPlaylist: WritableSignal<PlaylistInterface | null> = signal(null);
@@ -64,12 +58,13 @@ export class PlaylistEditSonglist implements OnInit {
   isEditing: Boolean = false;
   isLocked: Boolean = false;
   playlistsfbService = inject(PlaylistsfbService);
+  songService = inject(SongService);
+  @Input() isAdmin: boolean = false;
   protected readonly open = open;
   private route = inject(ActivatedRoute);
   playlist_id = this.route.snapshot.paramMap.get('id');
   private router = inject(Router);
-  songService = inject(SongService);
-  @Input() isAdmin: boolean = false;
+
   ngOnInit() {
     this.isLoading.set(true);
     this.error.set(null);
@@ -86,6 +81,11 @@ export class PlaylistEditSonglist implements OnInit {
         this.isLoading.set(false);
       },
     });
+  }
+
+  getFormattedDate(date: Date | Timestamp | undefined): Date | null {
+    if (!date) return null;
+    return date instanceof Timestamp ? date.toDate() : date;
   }
 
   drop(event: CdkDragDrop<Song[], any, any>) {
@@ -111,6 +111,7 @@ export class PlaylistEditSonglist implements OnInit {
     const updatedPlaylist = {
       ...this.currentPlaylist(),
       songs: data,
+      updatedAt: Timestamp.now(),
     } as PlaylistInterface;
 
     this.playlistsfbService
@@ -122,32 +123,10 @@ export class PlaylistEditSonglist implements OnInit {
         },
         error: (err) => {
           console.error('Error updating playlist:', err);
-        },
+        }
       });
   }
 
-  removeSong(songId: string) {
-    const updatedSongs = [...(this.currentPlaylist()!.songs || [])];
-    const index = updatedSongs.findIndex((song) => song.id === songId);
-    if (index !== -1) {
-      updatedSongs.splice(index, 1);
-    }
-    const updatedPlaylist = {
-      ...this.currentPlaylist(),
-      songs: updatedSongs,
-    } as PlaylistInterface;
-    this.playlistsfbService
-      .updatePlaylist(this.playlist_id!, updatedPlaylist)
-      .subscribe({
-        next: () => {
-          console.log('Song removed from playlist successfully');
-          this.currentPlaylist.set(updatedPlaylist);
-        },
-        error: (err) => {
-          console.error('Error removing song from playlist:', err);
-        },
-      });
-  }
 
   goBackAdmin() {
     if (this.isAdmin) {
