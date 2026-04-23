@@ -1,23 +1,29 @@
-import {Component, inject, OnInit, signal, WritableSignal,} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {PlaylistsService} from '../../state/playlists/playlists.service';
-import {PlaylistInterface} from '../../models/playlist.interface';
-import {PlaylistsfbService} from '../../api/playlistfb/playlistsfb.service';
-import {MatListModule} from '@angular/material/list';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
-import {DragDropModule,} from '@angular/cdk/drag-drop';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatTableModule} from '@angular/material/table';
-import {LyricsService} from '../../../Lyrics/state/lyrics/lyrics.service';
-import {MatSortModule} from '@angular/material/sort';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {SongService} from '../../../Song/state/song/song.service';
-import {EditSonglistService} from '../../services/edit-songlist.service';
+import {
+  Component,
+  inject,
+  OnInit,
+  signal,
+  WritableSignal,
+} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PlaylistsService } from '../../state/playlists/playlists.service';
+import { PlaylistInterface } from '../../models/playlist.interface';
+import { PlaylistsfbService } from '../../api/playlistfb/playlistsfb.service';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { LyricsService } from '../../../Lyrics/state/lyrics/lyrics.service';
+import { MatSortModule } from '@angular/material/sort';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SongService } from '../../../Song/state/song/song.service';
+import { EditSonglistService } from '../../services/edit-songlist.service';
 
 @Component({
   selector: 'app-playlist-view',
@@ -37,13 +43,13 @@ import {EditSonglistService} from '../../services/edit-songlist.service';
   ],
   templateUrl: './playlist-view.html',
   styleUrl: './playlist-view.css',
-  standalone: true
+  standalone: true,
 })
 export class PlaylistView implements OnInit {
   playlistsService = inject(PlaylistsService);
   lyricService = inject(LyricsService);
-  editSonglistService = inject(EditSonglistService)
-// Signal to track loading and playlist state
+  editSonglistService = inject(EditSonglistService);
+  // Signal to track loading and playlist state
   isLoading: WritableSignal<boolean> = signal(true);
   currentPlaylist: WritableSignal<PlaylistInterface | null> = signal(null);
   error: WritableSignal<string | null> = signal(null);
@@ -74,7 +80,6 @@ export class PlaylistView implements OnInit {
     });
   }
 
-
   goBackLouange() {
     this.router.navigate(['louange']);
   }
@@ -82,7 +87,7 @@ export class PlaylistView implements OnInit {
   openSongRead(songId: string, isExtra: boolean) {
     if (
       this.route.snapshot.url.some((segment) =>
-        segment.path.includes('playlist-edit')
+        segment.path.includes('playlist-edit'),
       )
     ) {
       this.songService.setSongAdmin(true);

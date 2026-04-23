@@ -18,8 +18,9 @@
 
 
 <app-lyric
+  [carder]="false"
   [extra]="extra"
   [louange]="true"
-  [lyric]="currentSong()"
+  [lyric]="songService.currentSong()"
 ></app-lyric>
 

@@ -8,14 +8,15 @@ import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router'; // For routerLink and navigation
 import {MatDividerModule} from '@angular/material/divider'; // For mat-divider in menu
 // Services
-import {AuthService} from '../../services/auth/auth.service';
-import {Notification} from '../../services/notification/notification.service';
+import {AuthService} from '../../../services/auth/auth.service';
+import {Notification} from '../../../services/notification/notification.service';
 
 // RxJS
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {User} from '@angular/fire/auth';
-import {PlaylistsService} from '../../features/Playlist/state/playlists/playlists.service';
+import {PlaylistsService} from '../../Playlist/state/playlists/playlists.service';
+import {TitleState} from '../state/title.state';
 
 @Component({
   selector: 'app-appbar',
@@ -25,7 +26,7 @@ import {PlaylistsService} from '../../features/Playlist/state/playlists/playlist
     MatButtonModule,
     CommonModule,
     MatMenuModule,
-    MatDividerModule
+    MatDividerModule,
   ],
   templateUrl: './appbar.html',
   styleUrl: './appbar.css',
@@ -34,6 +35,8 @@ export class Appbar {
   router = inject(Router);
 
   Playlist = inject(PlaylistsService);
+
+  appTitle = inject(TitleState);
 
   url_playlist: boolean = false;
 
@@ -54,11 +57,11 @@ export class Appbar {
           return name ? name.charAt(0).toUpperCase() : '';
         }
         return '';
-      })
+      }),
     );
 
     this.url_playlist = this.route.snapshot.url.some((segment) =>
-      segment.path.includes('playlist')
+      segment.path.includes('playlist'),
     );
 
     if (this.url_playlist) {
@@ -80,6 +83,16 @@ export class Appbar {
     // No specific initialization needed for this simple component
   }
 
+  getTruncatedTitle(title: string): string {
+    // Check if it's a mobile screen (typically 768px or less)
+    const isMobile = window.innerWidth <= 768;
+
+    if (isMobile && title.length > 30) {
+      return title.substring(0, 20) + '...';
+    }
+    return title;
+  }
+
   async onLogout(): Promise<void> {
     this.notificationService
       .openConfirmDialog({
@@ -97,7 +110,7 @@ export class Appbar {
           } catch (error) {
             console.error('Logout error:', error);
             this.notificationService.showError(
-              'Failed to log out. Please try again.'
+              'Failed to log out. Please try again.',
             );
           }
         }

@@ -1,0 +1,27 @@
+.virtual-scroll-container {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.viewport {
+  /* Dynamic height based on viewport, leaving space for other elements */
+  max-height: calc(100dvh - 200px);
+  max-width: 100%;
+  border: 1px solid rgba(0, 113, 96, 0);
+
+  /* Restrict to vertical scrolling only */
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  /* The Gradient Mask */
+  /* Top 50% (first 5 items) is fully opaque (black) */
+  /* Bottom 50% (last 5 items) fades to transparent */
+  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  margin: 0;
+
+  /* Ensure proper scrolling behavior */
+  scroll-behavior: smooth;
+}

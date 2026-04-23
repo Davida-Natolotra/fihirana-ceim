@@ -1,4 +1,5 @@
-<div class="hcontainer">
+<div class="container">
+
   <mat-form-field appearance="outline">
     <mat-label>Filtre</mat-label>
     <input
@@ -20,66 +21,72 @@
     </button
     >
   }
+
+
+  <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
+    <!-- Position Column -->
+    <ng-container matColumnDef="songNumber">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Laharan-kira</th>
+      <td *matCellDef="let element" mat-cell>
+        {{ element.songNumber }}{{ element.suffix ? ' ' + element.suffix : '' }}
+      </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+
+      <th *matHeaderCellDef mat-header-cell style="font-weight: bold">
+        Playlist
+      </th>
+
+      <td *matCellDef="let element" mat-cell>{{ element.name }}</td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+      <th *matHeaderCellDef mat-header-cell></th>
+      <td *matCellDef="let element" mat-cell>
+        @if (isAdmin) {
+          <button
+            (click)="editPlaylistDialog(element)"
+            aria-label="Editer"
+            mat-icon-button
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+
+          <button
+            (click)="deletePlaylist(element); $event.stopPropagation()"
+            aria-label="Supprimer"
+            color="warn"
+            mat-icon-button
+          >
+            <mat-icon>close</mat-icon>
+          </button
+          >
+        }
+      </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr
+      (click)="openPlaylist(row)"
+      *matRowDef="let row; columns: displayedColumns;"
+      mat-row
+    ></tr>
+
+    <!-- Row shown when there is no matching data. -->
+    <tr *matNoDataRow class="mat-row">
+      <td class="mat-cell" colspan="4">
+        Aucun donnée trouvée pour cette filtre: "{{ input.value }}"
+      </td>
+    </tr>
+  </table>
+  @if (isAdmin) {
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      aria-label="Sélecteur de page"
+    ></mat-paginator>
+  }
+
 </div>
-
-<table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
-  <!-- Position Column -->
-  <ng-container matColumnDef="songNumber">
-    <th *matHeaderCellDef mat-header-cell mat-sort-header>Laharan-kira</th>
-    <td *matCellDef="let element" mat-cell>
-      {{ element.songNumber }}{{ element.suffix ? ' ' + element.suffix : '' }}
-    </td>
-  </ng-container>
-
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <th *matHeaderCellDef mat-header-cell style="font-weight: bold">
-      Playlist
-    </th>
-    <td *matCellDef="let element" mat-cell>{{ element.name }}</td>
-  </ng-container>
-
-  <!-- Action Column -->
-  <ng-container matColumnDef="action">
-    <th *matHeaderCellDef mat-header-cell></th>
-    <td *matCellDef="let element" mat-cell>
-      @if (isAdmin) {
-        <button
-          (click)="editPlaylistDialog(element)"
-          aria-label="Editer"
-          mat-icon-button
-        >
-          <mat-icon>edit</mat-icon>
-        </button>
-
-        <button
-          (click)="deletePlaylist(element); $event.stopPropagation()"
-          aria-label="Supprimer"
-          color="warn"
-          mat-icon-button
-        >
-          <mat-icon>close</mat-icon>
-        </button
-        >
-      }
-    </td>
-  </ng-container>
-
-  <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-  <tr
-    (click)="openPlaylist(row)"
-    *matRowDef="let row; columns: displayedColumns;"
-    mat-row
-  ></tr>
-
-  <!-- Row shown when there is no matching data. -->
-  <tr *matNoDataRow class="mat-row">
-    <td class="mat-cell" colspan="4">
-      Aucun donnée trouvée pour cette filtre: "{{ input.value }}"
-    </td>
-  </tr>
-</table>
-<mat-paginator
-  [pageSizeOptions]="[5, 10, 25, 100]"
-  aria-label="Sélecteur de page"
-></mat-paginator>

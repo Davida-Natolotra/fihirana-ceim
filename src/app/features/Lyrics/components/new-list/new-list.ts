@@ -127,6 +127,10 @@ export class NewList implements OnInit, AfterViewInit {
     this.router.navigate(['/lyric', row.id]);
   }
 
+  gotoHome() {
+    this.router.navigate(["/"])
+  }
+
   private sortLyrics(lyrics: LyricInterface[]): LyricInterface[] {
     return lyrics.sort((a: LyricInterface, b: LyricInterface) => {
       // First, compare by songNumber

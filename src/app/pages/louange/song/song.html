@@ -1,5 +1,36 @@
 <div class="container">
-  <app-song-read></app-song-read>
+  <mat-card appearance="filled">
+    <mat-card-header class="lyric-header">
+      @if (!songService.currentSong().isExtra) {
+        <mat-card-title class="mat-subheading-2"
+        >HIRA FAHA {{ songService.currentSong().songNumber || null }}
+        </mat-card-title
+        >
+      }
+
+      <mat-card-subtitle class="mat-caption">
+        @if (songService.currentSong().key) {
+          <i>Clé: {{ songService.currentSong().key }}</i>
+        }
+      </mat-card-subtitle>
+
+    </mat-card-header>
+  </mat-card>
+  <mat-tab-group mat-align-tabs="start" mat-stretch-tabs="false">
+    <mat-tab label="Tononkira">
+
+      <app-song-read></app-song-read>
+    </mat-tab>
+    @if (!!songService.currentSong().structure) {
+      <mat-tab label="Structure">
+
+        @for (item of songService.currentSong().structure!.split("\n"); track item) {
+          <p>{{ item }}</p>
+        }
+
+      </mat-tab>
+    }
+  </mat-tab-group>
 
   <div class="floating-button-container">
     <button
@@ -8,7 +39,8 @@
       color="primary"
       mat-flat-button
     >
-      <mat-icon>arrow_back</mat-icon> Retour
+      <mat-icon>arrow_back</mat-icon>
+      Retour
     </button>
   </div>
 </div>

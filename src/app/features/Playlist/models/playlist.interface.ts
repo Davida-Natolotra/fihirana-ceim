@@ -8,6 +8,7 @@ export interface PlaylistInterface {
   createdAt?: Timestamp;
   updatedAt?: Timestamp;
   isRemoved?: boolean;
+  updatedBy?: string;
 }
 
 export interface Song {
@@ -15,4 +16,5 @@ export interface Song {
   isExtra: boolean;
   key?: string;
   title: string;
+  structure?: string
 }

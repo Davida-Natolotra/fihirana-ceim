@@ -2,8 +2,12 @@
 <mat-dialog-content>
   <form (ngSubmit)="submit()" [formGroup]="form">
     <mat-form-field appearance="outline" class="example-form-field">
-      <mat-label>Structure</mat-label>
-      <textarea formControlName="structure" matInput type="text"></textarea>
+
+      <textarea #autosize="cdkTextareaAutosize" cdkAutosizeMaxRows="50" cdkAutosizeMinRows="1"
+                cdkTextareaAutosize
+                formControlName="structure"
+                matInput
+                type="text"></textarea>
       <button
         (click)="resetValues()"
         aria-label="Clear"

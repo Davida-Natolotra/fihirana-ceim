@@ -1,0 +1,17 @@
+<mat-toolbar class="navbar-brand app-toolbar bg-secondary">
+  <img
+    (click)="goBack()"
+    alt="App Logo"
+    class="app-logo"
+    src="../../../../assets/logo_inv.svg"
+  />
+  <h4 class="navbar-brand">{{ getTruncatedTitle(appTitle.appTitle()) }}</h4>
+
+  <span class="spacer"></span>
+  <!--  <button [matMenuTriggerFor]="menu" aria-label="Menu" matIconButton>-->
+  <!--    <mat-icon class="menu-icon">more_vert</mat-icon>-->
+  <!--  </button>-->
+  <!--  <mat-menu #menu="matMenu">-->
+  <!--    <button (click)="gotoLouange()" mat-menu-item>Louange</button>-->
+  <!--  </mat-menu>-->
+</mat-toolbar>

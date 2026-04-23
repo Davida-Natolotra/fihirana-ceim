@@ -1,0 +1,17 @@
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 100dvh;
+  justify-content: center;
+}
+
+.footer-content {
+  font-size: x-small;
+  flex: 1; /* Pushes the footer down */
+
+  text-align: center;
+  /* Ensure it stays at the bottom if needed */
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}

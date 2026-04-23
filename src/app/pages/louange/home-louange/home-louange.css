@@ -1,0 +1,46 @@
+.app-accueil {
+  max-width: 100%;
+}
+
+.mini-card-container {
+  display: flex;
+  justify-content: space-between; /* Evenly spaces the 3 buttons */
+  gap: 8px; /* Adds a small gutter between them */
+  padding: 16px;
+  max-width: 100%;
+}
+
+::ng-deep .mini-card-button {
+  --mdc-filled-button-container-shape: 16px !important;
+  --mdc-protected-button-container-shape: 16px !important;
+  --mdc-outlined-button-container-shape: 16px !important;
+  border-radius: 16px !important;
+  height: 100px !important;
+  width: 100%;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important; /* Vertical center */
+  align-items: center !important; /* Horizontal center */
+}
+
+/* Force the internal content to follow the button's flex layout */
+::ng-deep .mini-card-button .mdc-button__label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.mini-card-button mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  margin: 0 0 8px 0 !important; /* Bottom margin only */
+}
+
+.mini-card-button span {
+  font-size: 12px; /* Smaller text for mobile fit */
+  text-transform: uppercase;
+}

@@ -5,17 +5,21 @@ import {SongRead} from '../../../features/Song/components/song-read/song-read';
 import {MatAnchor, MatButtonModule} from '@angular/material/button';
 import {SongService} from '../../../features/Song/state/song/song.service';
 import {MatIconModule} from '@angular/material/icon';
+import {MatTab, MatTabGroup} from '@angular/material/tabs';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-song',
-  imports: [SongRead, MatButtonModule, MatAnchor, MatIconModule],
+  imports: [SongRead, MatButtonModule, MatAnchor, MatIconModule, MatTab, MatTabGroup, MatCardModule,],
   templateUrl: './song.html',
   styleUrl: './song.css',
 })
 export class Song {
   currentPlaylist = inject(PlaylistsService).currentPlaylist;
   songService = inject(SongService);
+
   private router = inject(Router);
+
 
   goBack() {
     if (this.songService.songIsAdmin()) {

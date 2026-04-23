@@ -1,5 +1,4 @@
 import {Routes} from '@angular/router';
-import {Home} from './pages/public/home/home';
 import {Lyrics} from './pages/public/lyrics/lyrics';
 import {AdminHome} from './pages/admin/admin-home/admin-home';
 import {AdminLogin} from './pages/admin/admin-login/admin-login';
@@ -9,16 +8,21 @@ import {environment} from '../environments/environment.prod';
 import {HomeLouange} from './pages/louange/home-louange/home-louange';
 import {AdminPlaylistEdit} from './pages/admin/admin-playlist-edit/admin-playlist-edit';
 import {Song} from './pages/louange/song/song';
+import {PlaylistHome} from './pages/playlist-home/playlist-home';
+import {Home} from './pages/public/home/home';
+import {ExtraList} from './pages/extra-list/extra-list';
 
 export const routes: Routes = [
   {
     path: '',
-    component: Home,
+    component: HomeLouange,
   },
   {
     path: 'louange',
     component: HomeLouange,
   },
+  {path: 'fihirana', component: Home},
+  {path: 'extra-list', component: ExtraList},
   {
     path: 'login', // Login page - protected by publicGuard
     component: LoginComponent,
@@ -33,6 +37,7 @@ export const routes: Routes = [
     // canActivate: [authGuard],
     // data: { authGuardPipe: redirectUnauthorizedTo(['/login']) },
   },
+  {path: 'playlist-home', component: PlaylistHome},
   {
     path: 'playlist/:id',
     // component: Playlist,

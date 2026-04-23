@@ -3,6 +3,7 @@ import {addDoc, collection, collectionData, doc, docData, Firestore, setDoc,} fr
 import {combineLatest, from, map, Observable, of, switchMap} from 'rxjs';
 import {Notification} from '../../../../services/notification/notification.service';
 import {PlaylistInterface, Song} from '../../models/playlist.interface';
+import {DeviceIdService} from '../../../../services/device-id/device-id.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,7 @@ export class PlaylistsfbService {
   firestore = inject(Firestore);
   PlaylistsCollection = collection(this.firestore, 'playlists');
   private notifications = inject(Notification);
+  private deviceIdService = inject(DeviceIdService)
 
   getPlaylists(): Observable<PlaylistInterface[]> {
     return collectionData(this.PlaylistsCollection, {
@@ -29,6 +31,7 @@ export class PlaylistsfbService {
     const promise = addDoc(this.PlaylistsCollection, {
       ...playlist,
       createdAt: new Date(),
+      updatedBy: this.deviceIdService.devId
     })
       .then((docRef) => {
         this.notifications.showSuccess('Playlist added successfully');
@@ -47,7 +50,7 @@ export class PlaylistsfbService {
     return from(
       setDoc(
         playlistDoc,
-        {...playlist, updatedAt: new Date()},
+        {...playlist, updatedAt: new Date(), updatedBy: this.deviceIdService.devId},
         {merge: true}
       )
         .then(() => {

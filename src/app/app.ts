@@ -1,11 +1,12 @@
-import { Component, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { Appbar } from './components/appbar/appbar';
-import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
-import { MatDialog } from '@angular/material/dialog';
-import { filter } from 'rxjs';
-import { InstallPromptDialog } from './dialogs/install-prompt-dialog/install-prompt-dialog';
-import { UpdateAvailableDialog } from './dialogs/update-available-dialog/update-available-dialog';
+import {Component, inject} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
+import {Appbar} from './features/appbar/components/appbar';
+import {SwUpdate, VersionReadyEvent} from '@angular/service-worker';
+import {MatDialog} from '@angular/material/dialog';
+import {InstallPromptDialog} from './dialogs/install-prompt-dialog/install-prompt-dialog';
+import {DeviceIdService} from './services/device-id/device-id.service';
+import {UpdateAvailableDialog} from './dialogs/update-available-dialog/update-available-dialog';
+import {filter} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -14,15 +15,15 @@ import { UpdateAvailableDialog } from './dialogs/update-available-dialog/update-
   styleUrl: './app.css',
 })
 export class App {
+  deferredPrompt: any;
   protected title = 'Fihirana CEIM';
   private swUpdate = inject(SwUpdate);
   private dialog = inject(MatDialog);
-  deferredPrompt: any;
-  constructor() {
-    this.handleAppUpdate();
+
+  constructor(private deviceIdService: DeviceIdService) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     window.addEventListener('beforeinstallprompt', (e: any) => {
       e.preventDefault();
       this.deferredPrompt = e;
@@ -43,13 +44,19 @@ export class App {
           this.promptInstall();
         }
       });
+
+      this.handleAppUpdate();
     });
 
     window.addEventListener('appinstalled', () => {
       console.log("L'application a été installée.");
       this.deferredPrompt = null;
     });
+
+    const deviceId = await this.deviceIdService.getDeviceId();
+    this.deviceIdService.setDeviceId(deviceId);
   }
+
 
   private handleAppUpdate() {
     if (this.swUpdate.isEnabled) {
@@ -78,4 +85,6 @@ export class App {
       this.deferredPrompt = null;
     }
   }
+
 }
+

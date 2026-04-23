@@ -3,6 +3,11 @@
   color: var(--mat-sys-on-primary); /* Ensures text is readable */
 }
 
+.bg-secondary {
+  background-color: rgb(217, 236, 224) !important;
+  color: var(--mat-sys-on-primary); /* Ensures text is readable */
+}
+
 .bg-playlist-primary {
   background-color: #855722 !important;
   color: white;
@@ -18,7 +23,7 @@
 
 .navbar-brand {
   cursor: pointer;
-  color: white !important;
+  color: var(--mat-sys-primary) !important;
   font-size: 24px;
 }
 
@@ -31,7 +36,7 @@
   position: sticky;
   top: 0;
   z-index: 1000; /* ensures it stays above other content */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* optional shadow */
+  /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); !* optional shadow *!*/
 }
 
 .spacer {

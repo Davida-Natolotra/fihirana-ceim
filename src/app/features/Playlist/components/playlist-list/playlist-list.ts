@@ -1,26 +1,20 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-  Input,
-  ViewChild,
-} from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { PlaylistInterface } from '../../models/playlist.interface';
-import { PlaylistsfbService } from '../../api/playlistfb/playlistsfb.service';
-import { PlaylistsService } from '../../state/playlists/playlists.service';
-import { environment } from '../../../../../environments/environment.development';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { PlaylistCreateDialog } from '../playlist-create-dialog/playlist-create-dialog';
-import { DeletePlaylistDialog } from '../delete-playlist-dialog/delete-playlist-dialog';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, Input, ViewChild,} from '@angular/core';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import {MatSort, MatSortModule} from '@angular/material/sort';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {PlaylistInterface} from '../../models/playlist.interface';
+import {PlaylistsfbService} from '../../api/playlistfb/playlistsfb.service';
+import {PlaylistsService} from '../../state/playlists/playlists.service';
+import {environment} from '../../../../../environments/environment.development';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {PlaylistCreateDialog} from '../playlist-create-dialog/playlist-create-dialog';
+import {DeletePlaylistDialog} from '../delete-playlist-dialog/delete-playlist-dialog';
+import {MatListModule} from '@angular/material/list';
 
 @Component({
   selector: 'app-playlist-list',
@@ -33,7 +27,7 @@ import { DeletePlaylistDialog } from '../delete-playlist-dialog/delete-playlist-
     MatIconModule,
     RouterModule,
     MatButtonModule,
-    MatDialogModule,
+    MatDialogModule, MatListModule
   ],
   templateUrl: './playlist-list.html',
   styleUrl: './playlist-list.css',
@@ -51,22 +45,24 @@ export class PlaylistList {
   @ViewChild(MatPaginator)
   paginator: MatPaginator = new MatPaginator();
   @Input() isAdmin: boolean = false;
+  activeLink: string | null = null;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef) {
+  }
 
   openDialog() {
     this.dialog.open(PlaylistCreateDialog, {
-      data: { isEdit: false, playlist: null },
+      data: {isEdit: false, playlist: null},
     });
   }
 
   deleteDialog(data: PlaylistInterface) {
-    this.dialog.open(DeletePlaylistDialog, { data });
+    this.dialog.open(DeletePlaylistDialog, {data});
   }
 
   editPlaylistDialog(data: PlaylistInterface) {
     this.dialog.open(PlaylistCreateDialog, {
-      data: { isEdit: true, playlist: data },
+      data: {isEdit: true, playlist: data},
     });
   }
 

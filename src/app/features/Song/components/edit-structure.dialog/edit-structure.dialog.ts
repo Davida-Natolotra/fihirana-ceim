@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, ViewChild} from '@angular/core';
 import {LyricInterface} from '../../../Lyrics/models/lyric.interface';
 import {ExtraLyricInterface} from '../../../Lyrics/models/extra-lyric.interface';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef,} from '@angular/material/dialog';
@@ -8,6 +8,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {SongService} from '../../state/song/song.service';
 import {MatButtonModule} from '@angular/material/button';
 import {SongfbApi} from '../../api/songfb/songfb.api';
+import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 
 @Component({
   selector: 'app-edit-structure.dialog',
@@ -21,6 +22,7 @@ import {SongfbApi} from '../../api/songfb/songfb.api';
 })
 export class EditStructureDialog {
   data: LyricInterface | ExtraLyricInterface = inject(MAT_DIALOG_DATA);
+  @ViewChild('autosize') autosize!: CdkTextareaAutosize;
   songService = inject(SongService);
   songApi = inject(SongfbApi)
   dialogRef = inject(MatDialogRef<EditStructureDialog>);
