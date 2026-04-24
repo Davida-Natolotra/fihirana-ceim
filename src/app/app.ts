@@ -1,12 +1,12 @@
-import {Component, inject} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
-import {Appbar} from './features/appbar/components/appbar';
-import {SwUpdate, VersionReadyEvent} from '@angular/service-worker';
-import {MatDialog} from '@angular/material/dialog';
-import {InstallPromptDialog} from './dialogs/install-prompt-dialog/install-prompt-dialog';
-import {DeviceIdService} from './services/device-id/device-id.service';
-import {UpdateAvailableDialog} from './dialogs/update-available-dialog/update-available-dialog';
-import {filter} from 'rxjs';
+import { Component, inject } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { Appbar } from './features/appbar/components/appbar';
+import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
+import { MatDialog } from '@angular/material/dialog';
+import { InstallPromptDialog } from './dialogs/install-prompt-dialog/install-prompt-dialog';
+import { DeviceIdService } from './services/device-id/device-id.service';
+import { UpdateAvailableDialog } from './dialogs/update-available-dialog/update-available-dialog';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -20,10 +20,11 @@ export class App {
   private swUpdate = inject(SwUpdate);
   private dialog = inject(MatDialog);
 
-  constructor(private deviceIdService: DeviceIdService) {
-  }
+  constructor(private deviceIdService: DeviceIdService) {}
 
   async ngOnInit() {
+    this.handleAppUpdate();
+
     window.addEventListener('beforeinstallprompt', (e: any) => {
       e.preventDefault();
       this.deferredPrompt = e;
@@ -44,8 +45,16 @@ export class App {
           this.promptInstall();
         }
       });
+    });
 
-      this.handleAppUpdate();
+    window.addEventListener('online', () => {
+      console.log('Connexion rétablie, vérification des mises à jour...');
+      this.checkForUpdates();
+    });
+
+    window.addEventListener('focus', () => {
+      console.log('Fenêtre active, vérification des mises à jour...');
+      this.checkForUpdates();
     });
 
     window.addEventListener('appinstalled', () => {
@@ -55,16 +64,31 @@ export class App {
 
     const deviceId = await this.deviceIdService.getDeviceId();
     this.deviceIdService.setDeviceId(deviceId);
-  }
 
+    if (navigator.onLine) {
+      this.checkForUpdates();
+    }
+
+    setInterval(
+      () => {
+        if (navigator.onLine) {
+          console.log(
+            'Vérification périodique des mises à jour du service worker...',
+          );
+          this.checkForUpdates();
+        }
+      },
+      5 * 60 * 1000,
+    );
+  }
 
   private handleAppUpdate() {
     if (this.swUpdate.isEnabled) {
       this.swUpdate.versionUpdates
         .pipe(
           filter(
-            (evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'
-          )
+            (evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY',
+          ),
         )
         .subscribe(() => {
           const dialogRef = this.dialog.open(UpdateAvailableDialog);
@@ -77,6 +101,22 @@ export class App {
     }
   }
 
+  private async checkForUpdates() {
+    if (!this.swUpdate.isEnabled) {
+      return;
+    }
+
+    try {
+      const hasUpdate = await this.swUpdate.checkForUpdate();
+      console.log('Vérification des mises à jour terminée', hasUpdate);
+    } catch (error) {
+      console.error(
+        'Échec de la vérification des mises à jour du service worker',
+        error,
+      );
+    }
+  }
+
   private async promptInstall() {
     if (this.deferredPrompt) {
       this.deferredPrompt.prompt();
@@ -85,6 +125,4 @@ export class App {
       this.deferredPrompt = null;
     }
   }
-
 }
-
