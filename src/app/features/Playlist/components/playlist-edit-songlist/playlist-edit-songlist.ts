@@ -1,4 +1,5 @@
-import {Component, inject, Input, OnInit, signal, WritableSignal,} from '@angular/core';
+import {Component, DestroyRef, inject, Input, OnInit, signal, WritableSignal,} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PlaylistsService} from '../../state/playlists/playlists.service';
 import {PlaylistInterface, Song} from '../../models/playlist.interface';
@@ -23,6 +24,8 @@ import {SongService} from '../../../Song/state/song/song.service';
 import {EditSonglistService} from '../../services/edit-songlist.service';
 import {DatePipe} from '@angular/common';
 import {Timestamp} from '@angular/fire/firestore';
+import {Lyricsfb} from '../../../Lyrics/api/lyricsfb/lyricsfb.service';
+import {ExtrafbService} from '../../../Lyrics/api/extralyricfb/extrafb.service';
 
 @Component({
   selector: 'app-playlist-edit-songlist',
@@ -59,6 +62,9 @@ export class PlaylistEditSonglist implements OnInit {
   isLocked: Boolean = false;
   playlistsfbService = inject(PlaylistsfbService);
   songService = inject(SongService);
+  private lyricsfbService = inject(Lyricsfb);
+  private extrafbService = inject(ExtrafbService);
+  private destroyRef = inject(DestroyRef);
   @Input() isAdmin: boolean = false;
   protected readonly open = open;
   private route = inject(ActivatedRoute);
@@ -69,7 +75,17 @@ export class PlaylistEditSonglist implements OnInit {
     this.isLoading.set(true);
     this.error.set(null);
 
-    this.playlistsfbService.getPlaylistLive(this.playlist_id!).subscribe({
+    this.lyricsfbService.getLyrics()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((lyrics) => this.lyricService.lyricsSig.set(lyrics));
+
+    this.extrafbService.getExtraLyrics()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((lyrics) => this.extraLyricService.loadExtraLyric(lyrics));
+
+    this.playlistsfbService.getPlaylistLive(this.playlist_id!)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
       next: (playlist) => {
         this.currentPlaylist.set(playlist);
         this.playlistsService.setCurrentPlaylist(playlist);

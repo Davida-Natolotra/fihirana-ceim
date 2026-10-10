@@ -31,7 +31,7 @@ export class PlaylistsfbService {
     const promise = addDoc(this.PlaylistsCollection, {
       ...playlist,
       createdAt: new Date(),
-      updatedBy: this.deviceIdService.devId
+      updatedBy: this.deviceIdService.devId()
     })
       .then((docRef) => {
         this.notifications.showSuccess('Playlist added successfully');
@@ -50,7 +50,7 @@ export class PlaylistsfbService {
     return from(
       setDoc(
         playlistDoc,
-        {...playlist, updatedAt: new Date(), updatedBy: this.deviceIdService.devId},
+        {...playlist, updatedAt: new Date(), updatedBy: this.deviceIdService.devId()},
         {merge: true}
       )
         .then(() => {

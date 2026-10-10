@@ -1,32 +1,32 @@
-import {Injectable, signal, WritableSignal} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {PlaylistInterface} from '../models/playlist.interface';
 import {PlaylistsfbService} from '../api/playlistfb/playlistsfb.service';
+import {PlaylistsService} from '../state/playlists/playlists.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EditSonglistService {
-  currentPlaylist: WritableSignal<PlaylistInterface | null> = signal(null);
-
-  constructor(private playlistsfbService: PlaylistsfbService) {
-  }
+  private playlistsfbService = inject(PlaylistsfbService);
+  private playlistsService = inject(PlaylistsService);
 
   removeSong(songId: string, playlist_id: string | null) {
-    const updatedSongs = [...(this.currentPlaylist()!.songs || [])];
-    const index = updatedSongs.findIndex((song) => song.id === songId);
-    if (index !== -1) {
-      updatedSongs.splice(index, 1);
+    const currentPlaylist = this.playlistsService.currentPlaylist();
+    if (!currentPlaylist || !playlist_id) {
+      console.error('Cannot remove song: no playlist loaded');
+      return;
     }
-    const updatedPlaylist = {
-      ...this.currentPlaylist(),
+    const updatedSongs = (currentPlaylist.songs || []).filter((song) => song.id !== songId);
+    const updatedPlaylist: PlaylistInterface = {
+      ...currentPlaylist,
       songs: updatedSongs,
-    } as PlaylistInterface;
+    };
     this.playlistsfbService
-      .updatePlaylist(playlist_id!, updatedPlaylist)
+      .updatePlaylist(playlist_id, updatedPlaylist)
       .subscribe({
         next: () => {
           console.log('Song removed from playlist successfully');
-          this.currentPlaylist.set(updatedPlaylist);
+          this.playlistsService.setCurrentPlaylist(updatedPlaylist);
         },
         error: (err) => {
           console.error('Error removing song from playlist:', err);

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -35,7 +35,7 @@ import { Song } from '../../models/playlist.interface';
   styleUrl: './drag-lists.css',
   standalone: true
 })
-export class DragLists implements AfterViewInit {
+export class DragLists implements OnChanges, AfterViewInit {
   @Input() lyrics: LyricInterface[] | ExtraLyricInterface[] = [];
   @Input() isExtra: boolean = false;
   dataSource = new MatTableDataSource([] as LyricInterface[]);
@@ -47,8 +47,10 @@ export class DragLists implements AfterViewInit {
 
   constructor(private cdr: ChangeDetectorRef) {}
 
-  ngOnInit(): void {
-    this.dataSource.data = this.lyrics;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['lyrics']) {
+      this.dataSource.data = this.lyrics;
+    }
   }
 
   ngAfterViewInit() {
